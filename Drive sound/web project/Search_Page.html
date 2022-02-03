@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search_Page</title>
+    <link rel="stylesheet" href="css/styleforsearch.css">
+</head>
+<body>
+    <header class ="header">
+        <a href="HomePage.html"><img src="css/images/Logo_DriveSound-01.png" width="100px%"></img>
+        <nav class ="nav">
+            <a href="Search_Page.html">Search</a>
+            <a href="About_Us_Page.html">About Us</a>
+            <a href="Account.html">Account</a>
+        </nav>
+    </header>
+    <div class="container">
+            <h2>Search Box Music</h2>
+        <br>
+        <br>
+        <form id="myForm" autocomplete="off">
+            <div class="searchBox">
+                <input class="searchInput" id="search" type="search" name="" placeholder="Search Music">
+                <button class="searchButton" id="btn" onclick="SubmitFrom()">
+                   <i class="click" > 
+                        Search 
+                    </i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <footer class ="footer">
+        <f>@drive sound</f>
+    </footer>
+</body>
+
+<br>
+<br>
+
+
+<script type="text/javascript">
+    function SubmitFrom() {
+        var Searchtxt = document.getElementById("search").value;
+        console.log("Searchtxt URL: " + Searchtxt);
+        // window.location = "Result_Page.html?Query=" + Searchtxt;
+        window.open("Result_Page.html?Query=" + Searchtxt);
+    }
+</script>
+
+</html>

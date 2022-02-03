@@ -1,0 +1,167 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #2c3440;
+    font-family: Sans-serif;
+    color: #f2f2f2;
+    height: 100%;
+  }
+
+.header ,.footer {
+    height: 85px;
+    background-color: #242b3a;
+}
+.nav{
+    height: 85px;
+    float: right;
+}
+.nav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 33px 30px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  .nav a:hover {
+    background-color: #575c66;
+  }
+  .container{
+    margin-top: 1cm;
+    margin-left: 35%;
+    margin-right: 35%;
+  }
+  .container h1:hover{
+    color: #75d6b9;
+  }
+ 
+  h1,.title{
+    color: #ffffff;
+    font-size: medium;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: larger;
+    text-align: center;
+    margin: auto;
+    letter-spacing: 2px;
+  }
+  .row{
+    display: table;
+  }
+  .column{
+    float: left;
+    width: 33.2%;
+    padding: 0.1px;
+  }
+  .images{
+    display: block;
+  }
+  .images img:hover {
+    opacity: 0.9;
+    transform: scale(1.2);
+}
+
+  h{
+    margin-left: 48%;
+  }
+  button{
+   background-color: #a7aaaf;
+   border: 0 solid #e2e8f0;
+   border-radius: 1.5rem;
+   box-sizing: border-box;
+   color: #0d172a;
+   cursor: pointer;
+   display: inline-block;
+   font-family: "Basier circle",-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+   font-size: 1.1rem;
+   font-weight: 600;
+   line-height: 1;
+   padding: 1rem 1.6rem;
+   text-align: center;
+   text-decoration: none #0d172a solid;
+   text-decoration-thickness: auto;
+   transition: all .1s cubic-bezier(.4, 0, .2, 1);
+   box-shadow: 0px 1px 2px rgba(166, 175, 195, 0.25);
+   user-select: none;
+   -webkit-user-select: none;
+   touch-action: manipulation;
+   margin-top: 0.5cm;
+   margin-left: 46.7%;
+}
+  button:hover {
+   background-color: #575c66;
+   color: #fff;
+}
+.footer {
+  margin-top: 1cm;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #a7aaaf;
+}
+
+  /* Option Section */
+  select {
+    appearance: none;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background-color: #575c66;
+    background-image: none;
+    cursor: pointer;
+  }
+  select option{
+    font-size: 0.5cm;
+  }
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.3cm;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 1;
+    right: 0;
+    padding: 1em;
+    background-color: #575c66;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: #f39c12;
+  }
+  .bg-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/Banner.1.jpg");
+    height: 5cm;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    margin-top: 0%;
+  }
+
