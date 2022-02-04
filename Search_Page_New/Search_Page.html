@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+    
+    .header {
+        width: 1000px;
+        padding: 20px;
+        background: #5d6475;
+        margin: 25px auto;
+        border-radius: 5px;
+        text-align: center;
+    }
+    
+    .header p {
+        font-size: 55px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #fff;
+    }
+    
+    body {
+        /* background-image: url("music_BG.jpg");*/
+        background: #2c3440;
+        height: 500px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+    
+    .searchBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        background: #2f3640;
+        height: 40px;
+        border-radius: 40px;
+        padding: 10px;
+    }
+    
+    .searchBox:hover>.searchInput {
+        width: 240px;
+        padding: 0 6px;
+    }
+    
+    .searchBox:hover>.searchButton {
+        background: white;
+        color: #2f3640;
+    }
+    
+    .searchButton {
+        color: white;
+        float: right;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #2f3640;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s;
+        bottom: 30px;
+    }
+    
+    .searchInput {
+        text-align: center;
+        border: none;
+        background: none;
+        outline: none;
+        float: left;
+        padding: 0;
+        color: white;
+        font-size: 16px;
+        transition: 0.4s;
+        width: 0px;
+    }
+    
+    @media screen and (max-width: 620px) {
+        .searchBox:hover>.searchInput {
+            text-align: center;
+            width: 250px;
+            padding: 0 0px;
+        }
+    }
+    
+    .image {
+        display: block;
+        text-align: center;
+    }
+    
+    .navbar {
+        overflow: hidden;
+        background-color: #5D6D7E;
+        margin: auto;
+    }
+    
+    .navbar a:hover {
+        /* Being mouse over */
+        color: #85929E;
+    }
+    
+    .navbar a {
+        float: right;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        padding-top: 35px;
+        padding-bottom: 30px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+    
+    #im {
+        float: left;
+        padding: 14px 16px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+    }
+    
+    #table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<nav class="navbar">
+    <a href="Account.html">Account</a>
+    <a href="About_Us_Page.html" target="_blank">About Us</a>
+    <a href="Search_Page.html">Search</a>
+    <a href="HomePage.html" target="_blank" id="im"><img src="Logo_DriveSound-01.png" width="100px%"></img>
+    </a>
+</nav>
+
+<head>
+    <title>Search_Page</title>
+    <div class="header">
+        <p>Search Box Music</p>
+    </div>
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <br>
+        <form id="myForm" autocomplete="off">
+            <div class="searchBox">
+                <input class="searchInput" id="search" type="search" name="" placeholder="Search Music" required>
+                <button class="searchButton" id="btn" onclick="SubmitFrom()">
+                   <i class="click" id="c" > 
+                        Search 
+                    </i>
+                </button>
+            </div>
+        </form>
+        <br>
+        <br>
+
+
+        <table style="display: none;" id="table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="background-color:white;" style="text-align:center;">Title</th>
+                    <th style="background-color:white;" style="text-align:center;">Cover Photo</th>
+                    <th style="background-color:white;" style="text-align:center;">Channel</th>
+                </tr>
+            </thead>
+            <tbody id="results">
+            </tbody>
+        </table>
+        <div id="pager">
+            <ul id="pagination" class="pagination-sm"></ul>
+        </div>
+    </div>
+</body>
+
+<br>
+<br>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="jquery.twbsPagination.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script src="script.js"></script>
+
+
+</html>
