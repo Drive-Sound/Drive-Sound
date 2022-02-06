@@ -1,9 +1,10 @@
 body {
     margin: 0px;
     padding: 0px;
-    background-color: #f2f2f2;
+    background-color: #2c3440;
     font-family: Sans-serif;
-    color: #2c3440;
+    box-sizing: border-box;
+    color: #f2f2f2;
     height: 100%;
   }
 .header ,.footer {
@@ -28,3 +29,155 @@ body {
   h2{
       text-align: center;
   }
+  .headline {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 1%;
+    padding: 20px;
+    background: #5d6475;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.headline p {
+    font-size: 55px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+}
+.searchBox {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background: #2f3640;
+  height: 20px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
+.searchBox:hover>.searchButton {
+  background: white;
+  color: #2f3640;
+}
+
+.searchButton {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin-left: 35%;
+  margin-right: 50%;
+  margin-top: 10%;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+.searchInput {
+  text-align: center;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  color: white;
+  font-size: 16px;
+  transition: 0.4s;
+  width: 0px;
+}
+
+@media screen and (max-width: 620px) {
+  .searchBox:hover>.searchInput {
+      text-align: center;
+      width: 250px;
+      padding: 0 0px;
+  }
+}
+
+.image {
+  display: block;
+  text-align: center;
+}
+
+
+#im {
+  float: left;
+  padding: 14px 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+#table {
+  margin-top: 15%;
+}
+
+.myForm {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10%;
+  margin-left: 10%;
+  background: var(--color-brand);
+  border-radius: var(--rad);
+}
+input {
+  height: var(--height);
+  font-family: var(--font-fam);
+  border: 0;
+  color: var(--color-dark);
+  font-size: 1.8rem;
+}
+input[type="search"] {
+  outline: 0; 
+  width: 100%;
+  background: var(--color-light);
+  padding: 0 1.6rem;
+  border-radius: var(--rad);
+  appearance: none; 
+  transition: all var(--dur) var(--bez);
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+input:not(:placeholder-shown) {
+  border-radius: var(--rad) 0 0 var(--rad);
+  width: calc(100% - var(--btn-width));
+}
+
+label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+.container {
+  margin-top: 1cm;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+.footer {
+  margin-bottom: 0%;
+  color: #a7aaaf;
+}
+.container1{
+  margin-left: 17.5%;
+}
