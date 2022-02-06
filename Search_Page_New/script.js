@@ -5,7 +5,7 @@ $(document).ready(function() {
         recPerPage = 0,
         nextPageToken = "",
         totalPages = 0;
-    var API_KEY = "AIzaSyDEewzKMbY4b9YBlJULZ_X1RQ9qL2cz8No";
+    var API_KEY = "AIzaSyAWiwXKry9EC2pMf1ZDg8X172GM8sBJwf0";
     var search = "";
     var duration = "any";
     var order = "relevance";
@@ -29,7 +29,7 @@ $(document).ready(function() {
     console.log("Search Url Query params' value: " + QueryParam);
     search = "";
 
-    API_KEY = "AIzaSyDEewzKMbY4b9YBlJULZ_X1RQ9qL2cz8No";
+    API_KEY = "AIzaSyAWiwXKry9EC2pMf1ZDg8X172GM8sBJwf0";
 
     var url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}
           &part=snippet&q=${search}&maxResults=${maxResults}&publishedAfter=${afterdate}&publishedBefore=${beforedate}&order=${order}&videoDuration=${duration}&type=video`;
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
         console.log(beforedate);
 
-        API_KEY = "AIzaSyDEewzKMbY4b9YBlJULZ_X1RQ9qL2cz8No";
+        API_KEY = "AIzaSyAWiwXKry9EC2pMf1ZDg8X172GM8sBJwf0";
 
         var url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}
           &part=snippet&q=${search}&maxResults=${maxResults}&publishedAfter=${afterdate}&publishedBefore=${beforedate}&order=${order}&videoDuration=${duration}&type=video`;
