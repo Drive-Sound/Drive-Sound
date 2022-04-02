@@ -62,7 +62,8 @@ create table song_info(
 insert into song_info(song_id,song_name,song_produced_date,song_rating,song_brand,song_solo_musician,song_type_song,song_detail,song_chord,song_lyric,song_album) VALUES
 (00000001,'Sugar','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V'),
 (00000002,'Imagine','1971-9-9','4',null,'John Lennon','Rock','Imagine is the second studio album by English musician John Lennon, released on 9 September 1971 by Apple Records...........',null,null,'Imagine'),
-(00000003,'Blinding light','2019-11-29','4',null,'The Weeknd','Electropop','"Blinding Lights" is a song by Canadian singer-songwriter the Weeknd. It was released on November 29, 2019,..........',null,null,'After Hours');
+(00000003,'Blinding light','2019-11-29','4',null,'The Weeknd','Electropop','"Blinding Lights" is a song by Canadian singer-songwriter the Weeknd. It was released on November 29, 2019,..........',null,null,'After Hours'),
+(00000004,'Sugar2','2019-11-29','4',null,'The Weeknd','Electropop','"Blinding Lights" is a song by Canadian singer-songwriter the Weeknd. It was released on November 29, 2019,..........',null,null,'After Hours');
 
 create table user_like(
 	userid			int(5)		not null,

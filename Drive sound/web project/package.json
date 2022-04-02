@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "axios": "^0.26.1",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.14.0",
+    "jquery": "^3.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "react-router-dom": "^6.2.2",
+    "styled-components": "^5.3.5"
+  },
+  "name": "web-project",
+  "version": "1.0.0",
+  "main": "jquery.twbsPagination.min.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Drive-sound",
+  "license": "ISC",
+  "description": ""
+}
