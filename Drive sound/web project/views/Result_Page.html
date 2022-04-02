@@ -16,14 +16,23 @@
         let data=url.split("/")[3];
         let sname=data.split("?")[1];
         let sbrand=data.split("?")[2];
+        let ssolo=data.split("?")[3];
+        let stype=data.split("?")[4];
+        let spdate=data.split("?")[5];
         sname_a = sname.replace('%20',' ')
         sbrand_a = sbrand.replace('%20',' ')
+
         console.log(sname+sbrand)
+
         document.getElementById("name").innerHTML = sname_a;
-        document.getElementById("brand_name").innerHTML = sbrand_a;
         if(sbrand_a == 'null'){
             document.getElementById("brand").innerHTML = 'Solo Musician :'
+            document.getElementById("brand_name").innerHTML = ssolo;
+        }else{
+            document.getElementById("brand_name").innerHTML = sbrand_a;
         }
+        document.getElementById("type").innerHTML = stype;
+        document.getElementById('pdate').innerHTML = spdate;
       }
 </script>
 <body>
@@ -49,9 +58,10 @@
                 <div class="card">
                     <h1 id ="name"></h1>
                     <hr>
-                    <p>Produced on xx xxx xxxx</p>
+                    <p>Produced on <a id ="pdate">xx xxx xxxx</a></p>
                     <p>Rating : &#11088;&#11088;&#11088;&#11088; (140) </p>
                     <p id ="brand">Brand : <a id = "brand_name" href="/Result">Maroon Five</a></p>
+                    <p>Type : <a id ="type" href="/Result"></a></p>
                     <hr>
                     <div class = "col-mid-upper-nav">
                         <nav>

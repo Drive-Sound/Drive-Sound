@@ -6,6 +6,7 @@ body {
     box-sizing: border-box;
     color: #f2f2f2;
     height: 100%;
+    width: 100%;
   }
 .header ,.footer {
     height: 85px;
@@ -30,8 +31,8 @@ body {
       text-align: center;
   }
   .headline {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 20%;
+    margin-right: 20%;
     margin-top: 1%;
     padding: 20px;
     background: #5d6475;
@@ -102,25 +103,54 @@ body {
   width: 0px;
 }
 .container2 {
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: 22%;
+  margin-right: 22%;
   margin-top: 10%;
   padding: 20px;
   border-radius: 5px;
-  text-align: center;
 }
 
-.th{
+/* th,td{
   text-align:center;
-
-}
-#results,tbody,#sname,#sbrand,#sprodate,tr,.output,thead,th{
+  padding: 0%;
   margin: 0%;
 }
+td{
+  background-color:#707070;
+} */
+/* #results,tbody,#sname,#sbrand,#sprodate,tr,.output,thead,th{
+  margin: 0%;
+} */
 #not-found{
   text-align: left;
+  margin-top: 2%;
+  margin-left: 5%;
+}
+table{
+  table-layout: fixed;
+  width: 100%;
+}
+tbody,thead{
+  background-color: #242b3a;
 }
 
+td,th{
+  width: 10%;
+  text-align: center;
+  overflow: hidden;
+  
+}
+td{
+  padding-right: 1%;
+}
+/* #output{
+  background-color: antiquewhite;
+} */
+/* style="background-color:#5d6475;"  */
+/* //style="background-color:#707070; */
+tbody:hover{
+  background-color: #363636;
+}
 @media screen and (max-width: 620px) {
   .searchBox:hover>.searchInput {
       text-align: center;

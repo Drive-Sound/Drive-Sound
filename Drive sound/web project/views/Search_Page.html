@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/styleforsearch.css"> 
 </head>
 <script>
+   
     $(document).on('click', '.searchButton', function () {
     $.ajax({
         type: 'POST',
@@ -24,33 +25,40 @@
             document.getElementById('results').style.display = 'inline';
             output = `<thead>
                         <tr>
-                            <th style="background-color:#5d6475;" >Title</th>
-                            <th style="background-color:#5d6475;" >Brand</th>
-                            <th style="background-color:#5d6475;" >Solo Musician</th>
-                            <th style="background-color:#5d6475;" >Type</th>
-                            <th style="background-color:#5d6475;" >Produced Date</th>
+                            <th>Title</th>
+                            <th>Brand</th>
+                            <th>Solo Musician</th>
+                            <th>Type</th>
+                            <th>Produced Date</th>
                         </tr>
                     </thead><br>`;
                     console.log(json.length)
             if(json.length > 0){
                 $.each(json, function( index, value ) {
-                    console.log(value)
+                    if(value.song_brand == null){
+                        value.song_brand = '-';
+                    }
+                    if(value.song_solo_musician == null){
+                        value.song_solo_musician = '-';
+                    }
+                    let pdate = value.song_produced_date.split("T")[0];
+                    console.log(value.song_solo_musician)
                     output += `<tbody>
-                        <tr class='clickable-row' value= "${value.song_name}">
-                            <td id = "sname" style="background-color:#707070;">`
+                        <tr class='clickable-row'>
+                            <td id = "sname">`
                             +value.song_name+
                             `</td>
-                            <td id = "sbrand" style="background-color:#707070;">`
+                            <td id = "sbrand">`
                             +value.song_brand+
                             `</td>
-                            <td id = "song_solo_musician" style="background-color:#707070;">`
+                            <td id = "song_solo_musician">`
                             +value.song_solo_musician+
                             `</td>
-                            <td id = "type" style="background-color:#707070;">`
+                            <td id = "type">`
                                 +value.song_type_song+
                                 `</td>
-                            <td id = "sprodate" type= "date" style="background-color:#707070;">`
-                                +value.song_produced_date+
+                            <td id = "sprodate" type= "date">`
+                                +pdate+
                                 `</td>
                         </tr>
                     </tbody><br>`
@@ -58,8 +66,6 @@
             }else{
                 output +=`<p id = "not-found">Not Found</p>`
             }
-
-            console.log(output)
             document.getElementById('results').innerHTML = output;
         },
         error: function (data) {
@@ -72,8 +78,7 @@ var name = $(e.target).closest('tr').find("td:eq(0)").html();
 var brand = $(e.target).closest('tr').find("td:eq(1)").html();
 var solo_musician = $(e.target).closest('tr').find("td:eq(2)").html();
 var type = $(e.target).closest('tr').find("td:eq(3)").html();
-var date = $(e.target).closest('tr').find("td:eq(4)").html();
-console.log(name +" "+ brand)
+var date = $(e.target).closest('tr').find("td:eq(4)").html().split("T")[0];
 $.ajax({
     type: 'POST',
     url: 'http://localhost:8888/Search',
@@ -103,11 +108,9 @@ $.ajax({
         })
         .then(response => response.json())
         .then(data => SetResult(data));
-        if(brand != 'null'){
-            document.location.href = '/Result?'+name+"?"+brand;
-        }else{
 
-        }
+        document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician+"?"+type+"?"+date;
+        
     },
     error: function (data) {
         alert("error");
