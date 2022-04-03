@@ -17,7 +17,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'PASSWORD',
-    database: 'drive_sound'
+    database: 'sec1_gr6_database'
 });
 
 
