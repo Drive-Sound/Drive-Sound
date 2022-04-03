@@ -141,6 +141,11 @@ app.post('/login', ifLoggedin, [
                     if (compare_result === true) {
                         req.session.isLoggedIn = true;
                         req.session.userID = rows[0].id;
+                        req.session.role = rows[0].role;
+                        if(req.session.role === 'a'){
+                            console.log("ss")
+                            alert("admin");
+                        }
                         res.redirect('/Home');
                     }
                     else {

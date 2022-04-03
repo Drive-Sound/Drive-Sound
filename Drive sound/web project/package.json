@@ -5,6 +5,7 @@
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
@@ -12,6 +13,7 @@
     "express-validator": "^6.14.0",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
     "react-router-dom": "^6.2.2",
@@ -21,7 +23,8 @@
   "version": "1.0.0",
   "main": "jquery.twbsPagination.min.js",
   "scripts": {
-    "start": "nodemon login.js"
+    "start": "nodemon login.js",
+    "post-man" : "nodemon admin.js"
   },
   "author": "Drive-sound",
   "license": "ISC",
