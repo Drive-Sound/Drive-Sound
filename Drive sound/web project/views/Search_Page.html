@@ -69,7 +69,7 @@
             document.getElementById('results').innerHTML = output;
         },
         error: function (data) {
-            alert(data.responseJSON.error);
+            alert('data.responseJSON.error');
         }
     });
 });  
@@ -125,6 +125,7 @@ $.ajax({
         <a href="/Search">Search</a>
         <a href="/About_Us">About Us</a>
         <a href="/Account">Account</a>
+        <a href="/logout">Logout</a>
     </nav>
 </header>
 <div class="headline">

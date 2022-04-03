@@ -14,13 +14,14 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
+    "react-router-dom": "^6.2.2",
     "styled-components": "^5.3.5"
   },
   "name": "web-project",
   "version": "1.0.0",
   "main": "jquery.twbsPagination.min.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon login.js"
   },
   "author": "Drive-sound",
   "license": "ISC",

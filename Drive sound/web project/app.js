@@ -21,7 +21,7 @@ app.use('/image',express.static(__dirname + 'public/images'))
 app.set('../views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.get('/Starter',(req,res) => {
+app.get('/',(req,res) => {
     res.sendFile(__dirname + '/views/StarterrPage.html')
 })
 app.get('/Home',(req,res) => {
@@ -34,21 +34,16 @@ app.get('/Search',(req,res) => {
 app.get('/Result',(req,res) => {
     res.sendFile(__dirname + '/views/Result_Page.html')
 })
-app.get('/Login',(req,res) => {
-    res.render(__dirname + '/views/login-register.ejs')
-    app.use(loginrouter);
-})
-app.post('/register',(req,res) => {
-    app.use(loginrouter);
-})
-
 app.get('/Account',(req,res) => {
     res.sendFile(__dirname + '/views/Account.html')
 })
 app.get('/About_Us',(req,res) => {
     res.sendFile(__dirname + '/views/About_Us_Page.html')
 })
-
-app.listen(8888, () =>{
-    console.log(`Server listen on port ${port}`)
+app.get('/Login',(req,res) => {
+    res.render(__dirname + '/views/login-register.ejs')
+    app.use(loginrouter);
 })
+// app.listen(8888, () =>{
+//     console.log(`Server listen on port ${port}`)
+// })
