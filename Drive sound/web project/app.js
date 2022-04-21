@@ -7,7 +7,7 @@ const express = require('express'),
  dotenv.config();
 
 
-app.use(express.static(path.join(__dirname, '/Starter')));
+app.use(express.static(path.join(__dirname, '/')));
 
 app.use(express.static('public'))
 app.use('/css',express.static(__dirname + 'public/css'))

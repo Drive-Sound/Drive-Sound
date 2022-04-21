@@ -1,7 +1,7 @@
 const express = require('express')
  bodyParser = require('body-parser'),
  app= express(),
- db = require('./sql'),
+ db = require('../database/js/sql'),
  router = express.Router();
  
 

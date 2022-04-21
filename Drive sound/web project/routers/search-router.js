@@ -1,5 +1,5 @@
 const express = require('express');
-const searchRouter = require('../search_function')
+const searchRouter = require('../js/search_function')
 const search = express.Router()
 const path = require("path")
 search.get('/',(req,res) => {
