@@ -10,7 +10,7 @@ const dbConnection = mysql.createPool({
 
 
 dbConnection.getConnection(function(err, connection) {
-    // connected! (unless `err` is set)
+    console.log("Connect")
   });
 
 
