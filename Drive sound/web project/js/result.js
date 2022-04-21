@@ -17,8 +17,15 @@ app.use("",router);
 
 
 router.post('/',function(req,res){
-    const sname = req.body.search;
-    var sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'";
+    const sname = req.body.sname_a;
+    const sbrand = req.body.sbrand_a;
+    const ssolo = req.body.ssolo_a;
+    var sql;
+    if(sbrand != "-"){
+        sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'AND song_brand LIKE '%"+sbrand+"%'";
+    }else{
+        sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'AND song_solo_musician LIKE '%"+ssolo+"%'";
+    }
     db.query(sql,function(err,data, fields){
         if (err) throw res.send(`Error not found`)
             return res.send(data);

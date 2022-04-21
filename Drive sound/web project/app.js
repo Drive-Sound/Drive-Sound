@@ -33,7 +33,11 @@ app.use('/Search', search);
 app.use('/Result', result);
 app.use('/Account', account);
 app.use('/About_Us', aboutus);
-
+app.get('/logout', (req, res) => {
+    //session destroy
+    req.session = null;
+    res.redirect('/Starter');
+});
 app.listen(8888, () =>{
     console.log(`Server listen on port ${port}`)
 })

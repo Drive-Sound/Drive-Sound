@@ -1,7 +1,11 @@
 const express = require('express');
-const result = express.Router()
+const result = require('../js/result')
+const Result = express.Router()
 const path = require("path")
-result.get('/',(req,res) => {
-    res.sendFile(path.join(__dirname, '/../views/Result.html'))
+
+Result.get('/',(req,res) => {
+    res.sendFile(path.join(__dirname, '/../views/Result_Page.html'))
+    Result.use(result);
 })
-module.exports = result;
+
+module.exports = Result;

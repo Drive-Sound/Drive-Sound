@@ -2,8 +2,11 @@
 <html>
 <head>
     <title>Result Page</title>
-    <link rel="stylesheet" href="css/styleforresult.css">
+    <meta charset="UTF-8">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="css/styleforresult.css"> 
     
 </head>
 <script>
@@ -17,23 +20,46 @@
         let sname=data.split("?")[1];
         let sbrand=data.split("?")[2];
         let ssolo=data.split("?")[3];
-        let stype=data.split("?")[4];
-        let spdate=data.split("?")[5];
         sname_a = sname.replace('%20',' ')
         sbrand_a = sbrand.replace('%20',' ')
+        ssolo_a = ssolo.replace('%20',' ')
 
-        console.log(sname+sbrand)
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result',
+            dataType: 'json',
+            data: {
+                sname_a: sname_a,
+                sbrand_a: sbrand_a,
+                ssolo_a: ssolo_a,
+                action: 'post'
+            },
+            success: function (json) {
+                    console.log(json)
+                    $.each(json, function( index, value ) {
+                        document.getElementById("name").innerHTML = sname_a;
+                        console.log(sbrand_a)
+                        if(sbrand_a != '-'){
+                            
+                            document.getElementById("brand_name").innerHTML = value.song_brand;
+                            
+                        }else{
+                            document.getElementById("brand").innerText = 'Solo Musician :'
+                            document.getElementById("brand_name").innerHTML = value.song_solo_musician;
+                        }
+                        document.getElementById("type").innerHTML = value.song_type_song;
+                        let pdate = value.song_produced_date.split("T")[0];
+                        document.getElementById('pdate').innerHTML = pdate;
+                        document.getElementById('detail').innerHTML = value.song_detail;
+                }) 
+                
+            },
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });
+    }
 
-        document.getElementById("name").innerHTML = sname_a;
-        if(sbrand_a == 'null'){
-            document.getElementById("brand").innerHTML = 'Solo Musician :'
-            document.getElementById("brand_name").innerHTML = ssolo;
-        }else{
-            document.getElementById("brand_name").innerHTML = sbrand_a;
-        }
-        document.getElementById("type").innerHTML = stype;
-        document.getElementById('pdate').innerHTML = spdate;
-      }
 </script>
 <body>
     <header class ="header">
@@ -61,7 +87,10 @@
                     <hr>
                     <p>Produced on <a id ="pdate">xx xxx xxxx</a></p>
                     <p>Rating : &#11088;&#11088;&#11088;&#11088; (140) </p>
-                    <p id ="brand">Brand : <a id = "brand_name" >Maroon Five</a></p>
+                    <div id =" element">
+                        <p id="brand" style="display: inline;">Brand :</p>
+                        <a id = "brand_name" style="display: inline;" ></a> 
+                    </div>
                     <p>Type : <a id ="type" ></a></p>
                     <hr>
                     <div class = "col-mid-upper-nav">
@@ -76,7 +105,7 @@
                      <div class ="detail">
                          <h2>Detail</h2>
                         <p>
-                            <br>Description of Sugar..............................................................
+                            <br><a id = "detail" ></a>
                             <br><br><br><br><br><hr>
                         </p>
                      </div>
@@ -140,5 +169,6 @@
             </div>
         </div> -->
 </body>
-<script src = "../result_page.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
 </html>

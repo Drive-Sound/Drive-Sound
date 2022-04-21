@@ -178,13 +178,7 @@ app.post('/login', ifLoggedin, [
 
 // END OF LOGIN PAGE
 
-// LOGOUT
-app.get('/logout', (req, res) => {
-    //session destroy
-    req.session = null;
-    res.redirect('/Starter');
-});
-// END OF LOGOUT
+
 module.exports = app;
 
 
