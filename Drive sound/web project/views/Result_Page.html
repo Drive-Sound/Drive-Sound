@@ -81,7 +81,7 @@
                         }
                         
                         id = value.song_id;
-                        
+                        console.log(id)
                         
                         
                 }) 
@@ -94,7 +94,6 @@
     }
 
 function nextpage(){
-    alert(id);
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8888/Result/next',
@@ -226,7 +225,7 @@ function openalbum(){
         <a href="/Search">Search</a>
         <a href="/About_Us">About Us</a>
         <a href="/Account">Account</a>
-        <a href="/logout">Logout</a>
+        <a href="/Login/logout">Logout</a>
     </nav>
     </header>
     <div class ="container">
