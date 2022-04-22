@@ -10,6 +10,7 @@
     
 </head>
 <script>
+    var lylic,chord,detail,album;
     document.addEventListener("DOMContentLoaded", function () {
         getData();
       });
@@ -38,7 +39,7 @@
                     console.log(json)
                     $.each(json, function( index, value ) {
                         document.getElementById("name").innerHTML = sname_a;
-                        console.log(sbrand_a)
+                        
                         if(sbrand_a != '-'){
                             
                             document.getElementById("brand_name").innerHTML = value.song_brand;
@@ -50,14 +51,34 @@
                         document.getElementById("type").innerHTML = value.song_type_song;
                         let pdate = value.song_produced_date.split("T")[0];
                         document.getElementById('pdate').innerHTML = pdate;
-                        document.getElementById('detail').innerHTML = value.song_detail;
+                        
                         if(value.song_photo != null){
                             document.getElementById('cover').src = value.song_photo;
                         }else{
                             document.getElementById('cover').src = "https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/cover.jpg";
                         }
-                        console.log(value.song_chord);
-                       
+                        if(value.song_detail != null){
+                            detail = value.song_detail;
+                        }else{
+                            detail= "null";
+                        }
+                        document.getElementById('detail').innerHTML = detail;
+                        if(value.song_chord != null){
+                            chord = value.song_chord;
+                        }else{
+                            chord= "null";
+                        }
+                        if(value.song_lyric != null){
+                            lylic = value.song_lyric;
+                        }else{
+                            lylic = "null";
+                        }
+                        if(value.song_album != null){
+                            album = value.song_album;
+                        }else{
+                            album = "null";
+                        }
+                        
                 }) 
                 
             },
@@ -66,8 +87,78 @@
             }
         });
     }
+
+
+
 function openchord(){
-    document.getElementById('detail_section').innerHTML = hidden();
+    console.log(chord)
+    let output = `<h2>Chord</h2>`;
+    if(chord != "null"){
+        output += `
+                    <p>
+                        <br><img id = "chord" src = "`+chord+`" width="100%" style = "width: 500px;" height="auto">
+                                <br><br><br><br><br><hr>
+                    </p>`
+    }else{
+        output += `
+                    <p>
+                        <br><a>No Data Yet !!!</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }
+
+    document.getElementById("detail_section").innerHTML = output;
+}
+function opendetail(){
+    let output = `<h2>Detail</h2>`;
+    if(detail != "null"){
+        output += `
+                    <p>
+                        <br><a id = "detail" >`+detail+`</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }else{
+        output += `
+                    <p>
+                        <br><a>No Data Yet !!!</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }
+    document.getElementById("detail_section").innerHTML = output;
+}
+function openlylic(){
+    let output = `<h2>Lyric</h2>`;
+    if(lylic != "null"){
+        output += `
+                    <p>
+                        <br><img id = "lyric" src = "`+lylic+`" width="100%" style = "width: 500px;" height="auto">
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }else{
+        output += `
+                    <p>
+                        <br><a>No Data Yet !!!</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }
+    document.getElementById("detail_section").innerHTML = output;
+}
+function openalbum(){
+    let output = `<h2>Album</h2>`;
+    if(album != "null"){
+        output += `
+                    <p>
+                        <br><a id = "album" >`+album+`</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }else{
+        output += `
+                    <p>
+                        <br><a>No Data Yet !!!</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }
+    document.getElementById("detail_section").innerHTML = output;
 }
 </script>
 <body>
@@ -105,22 +196,21 @@ function openchord(){
                     <div class = "col-mid-upper-nav" >
                         <nav>
                             <br>
-                            <a  >Detail</a>
-                            <a onclick="openchord()">Chord</a>
-                            <a >Lyric</a>
-                            <a >Album</a>
+                            <a class="btn" onclick="opendetail()" >Detail</a>
+                            <a class="btn" onclick="openchord()">Chord</a>
+                            <a class="btn" onclick="openlylic()">Lyric</a>
+                            <a class="btn" onclick="openalbum()">Album</a>
                         </nav>
                      </div>
-                     <div class ="detail" id ="detail_section">
-                         <h2>Detail</h2>
-                        <p>
-                            <br><a id = "detail" ></a>
-                            <br><br><br><br><br><hr>
-                        </p>
-                     </div>
-                     <div class ="chord" id ="chord"></div>
-                     <div class ="lyric" id ="lyric"></div>
-                     <div class ="album" id ="album"></div>
+                     <div class = "container_bot">
+                        <div id ="detail_section">
+                            <h2>Detail</h2>
+                            <p>
+                                <br><a id = "detail" ></a>
+                                <br><br><br><br><br><hr>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="column-right">
@@ -136,7 +226,6 @@ function openchord(){
         </div>
     </div>
     <footer class ="footer">
-        <f>@drive sound</f>
     </footer>
 
 </body>

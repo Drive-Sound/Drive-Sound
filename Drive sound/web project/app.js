@@ -22,6 +22,7 @@ const login = require('./routers/login-router');
 const home = require('./routers/home-router');
 const search = require('./routers/search-router');
 const result = require('./routers/result-router');
+const datalist = require('./routers/datalist-router');
 const account = require('./routers/account-router');
 const aboutus = require('./routers/aboutus-router');
 
@@ -31,6 +32,7 @@ app.use('/Home', home);
 app.use('/Login', login);
 app.use('/Search', search);
 app.use('/Result', result);
+app.use('/List', datalist);
 app.use('/Account', account);
 app.use('/About_Us', aboutus);
 app.get('/logout', (req, res) => {

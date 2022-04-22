@@ -160,3 +160,6 @@ body {
   z-index: 1;
   position: relative;
 }
+.active {
+  display: block;
+}

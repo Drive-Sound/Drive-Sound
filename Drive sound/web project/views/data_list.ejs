@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html language="en">
+<head>
+  <title>List Music</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('./partial/style'); %>
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        getData();
+      });
+    function getData(){
+        let url = window.location.href
+        let data=url.split("?")[1];
+        let newdata = data.split("-");
+        let output = newdata[0];
+        for(var i = 1;i<newdata.length; i++){
+            output +=" "+newdata[i];
+        }
+        document.getElementById('headline').innerHTML += output;
+    }
+
+</script>
+<body>
+    <%- include('./partial/header'); %>
+    <div class="container">
+        <div class = head>
+            <h2 id ="headline">List of </h2>
+        </div>
+    </div>
+    <%- include('./partial/footer'); %>
+</body>
+
+
+</html>
