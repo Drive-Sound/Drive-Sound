@@ -48,10 +48,12 @@ body {
 }
 .searchBox {
   position: absolute;
-  left: 50%;
+  margin-right: auto;
+  margin-left: auto;
   transform: translate(-50%, 50%);
   background: #2f3640;
-  height: 40px;
+  height: 50px;
+  width: 40%;
   border-radius: 10px;
   padding: 10px;
 }
@@ -79,7 +81,7 @@ body {
   line-height: 1.25;
   margin-left: 35%;
   margin-right: 50%;
-  margin-top: 10%;
+  margin-top: 5%;
   min-height: 3rem;
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
   position: relative;
@@ -92,6 +94,7 @@ body {
   width: auto;
 }
 .searchInput {
+  width:0%;
   text-align: center;
   border: none;
   background: none;
@@ -100,7 +103,6 @@ body {
   color: white;
   font-size: 16px;
   transition: 0.4s;
-  width: 0px;
 }
 .container2 {
   margin-left: 22%;
@@ -109,7 +111,10 @@ body {
   padding: 20px;
   border-radius: 5px;
 }
-
+.container {
+  margin-left: 40%;
+  margin-right: 40%;
+}
 /* th,td{
   text-align:center;
   padding: 0%;
@@ -194,7 +199,8 @@ input {
 }
 input[type="search"] {
   outline: 0; 
-  width: 100%;
+  width: 60%;
+  text-align: center;
   background: var(--color-light);
   padding: 0 1.6rem;
   border-radius: var(--rad);
@@ -206,7 +212,6 @@ input[type="search"] {
 }
 input:not(:placeholder-shown) {
   border-radius: var(--rad) 0 0 var(--rad);
-  width: calc(100% - var(--btn-width));
 }
 
 label {
@@ -220,60 +225,30 @@ label {
 }
 .container {
   margin-top: 1cm;
-  margin-left: 35%;
+  margin-left: 50%;
   margin-right: 35%;
 }
 .footer {
   margin-bottom: 0%;
   color: #a7aaaf;
 }
-.container1{
-  margin-left: 17.5%;
-}
-select {
-  appearance: none;
-  outline: 0;
-  border: 0;
-  box-shadow: none;
-  /* Personalize */
-  flex: 1;
-  padding: 0 1em;
-  color: #fff;
-  background-color: #575c66;
-  background-image: none;
-  cursor: pointer;
-}
-select option{
-  font-size: 0.5cm;
-}
-/* Remove IE arrow */
-select::-ms-expand {
-  display: none;
-}
-/* Custom Select wrapper */
-.select {
+
+/* The container must be positioned relative: */
+.custom-select {
   position: relative;
-  display: flex;
-  width: 10em;
-  height: 3em;
-  border-radius: .25em;
-  overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 0.3cm;
+  font-family: Arial;
+  width: 10%;
+  background-color:  #242b3a;
+  color: #fff;
+  border:0px;
+  outline:0px;
 }
-/* Arrow */
-.select::after {
-  content: '\25BC';
-  position: absolute;
-  top: 1;
-  right: 0;
-  padding: 1em;
-  background-color: #575c66;
-  transition: .25s all ease;
-  pointer-events: none;
-}
-/* Transition */
-.select:hover::after {
-  color: #f39c12;
-}
+
+
+
+
+
+
+
+
+

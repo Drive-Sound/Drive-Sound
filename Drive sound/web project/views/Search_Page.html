@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="css/styleforsearch.css"> 
 </head>
 <script>
+    var val = document.getElementById('criteria');
+    function update() {
+        var select = document.getElementById('criteria');
+        var option = select.options[select.selectedIndex];
+        val = option.value;
+        console.log(val)
+    }
+    
     var obj;
     $(document).on('click', '.searchButton', function () {
     $.ajax({
@@ -18,10 +26,10 @@
         dataType: 'json',
         data: {
             search: $(search_song).val(),
+            type_search: val,
             action: 'post'
         },
         success: function (json) {
-            
             console.log(json)
             document.getElementById('results').style.display = 'inline';
             output = `<thead>
@@ -44,7 +52,7 @@
                         value.song_solo_musician = '-';
                     }
                     let pdate = value.song_produced_date.split("T")[0];
-                    console.log(value.song_solo_musician)
+                    
                     output += `<tbody>
                         <tr class='clickable-row'>
                             <td id = "sname">`
@@ -120,8 +128,9 @@ $.ajax({
     }
 });
 });
+
 </script>
-<body>
+<body onload="update()">
 <header class ="header">
         <a href="/Home"><img src="../images/Logo_DriveSound-01.png" width="100px%"></a>
     <nav class ="nav">
@@ -137,17 +146,24 @@ $.ajax({
     <div class="container">
             <div class="searchBox">
                 
-              
-                <input class="searchInput" id="search_song" type="search" name="search" placeholder="Search Music" required>
-                <button class="searchButton" id="btn" type ="submit" value="Submit">
-                   <i class="click" id="c" > 
-                        Search 
-                    </i>
-                </button>
-
-               
-                
-                   
+                    <p>Search from :
+                        
+                            <select class="custom-select" style="width:130px;height:30px;margin-left:30px "id ="criteria" onchange="update()">
+                              
+                              <option value="name">Name</option>
+                              <option value="brand">Brand</option>
+                              <option value="solo">Solo Musician</option>
+                              <option value="type">Type</option>
+                            </select>
+    
+                    
+                    <input class="searchInput" id="search_song" type="search" name="search" style="display: inline;" placeholder="Search Music" required>
+                      
+                    <button class="searchButton" id="btn" type ="submit"  value="Submit">
+                    <i class="click" id="c" > 
+                         Search 
+                     </i>
+                 </button> 
                 </div>
 
             </div>
@@ -158,7 +174,6 @@ $.ajax({
             </table>
         </form>
     </div>
-
 </body>
 
 <br>
@@ -167,7 +182,6 @@ $.ajax({
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
-
 
 
 
