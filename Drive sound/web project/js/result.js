@@ -23,8 +23,10 @@ router.post('/',function(req,res){
     var sql;
     if(sbrand != "-"){
         sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'AND song_brand LIKE '%"+sbrand+"%'";
+        // sql = "UPDATE song_info SET song_count_join = "+song_count_join+1+" WHERE song_name = "+sname+" AND song_brand = "+sbrand;
     }else{
         sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'AND song_solo_musician LIKE '%"+ssolo+"%'";
+        // sql = "UPDATE song_info SET song_count_join = "+song_count_join+1+" WHERE song_name = "+sname+" AND song_solo_musician = "+ssolo;
     }
     db.query(sql,function(err,data, fields){
         if (err) throw res.send(`Error not found`)

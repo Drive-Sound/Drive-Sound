@@ -51,6 +51,13 @@
                         let pdate = value.song_produced_date.split("T")[0];
                         document.getElementById('pdate').innerHTML = pdate;
                         document.getElementById('detail').innerHTML = value.song_detail;
+                        if(value.song_photo != null){
+                            document.getElementById('cover').src = value.song_photo;
+                        }else{
+                            document.getElementById('cover').src = "https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/cover.jpg";
+                        }
+                        console.log("count"+ value.song_count_join);
+                       
                 }) 
                 
             },
@@ -59,7 +66,9 @@
             }
         });
     }
-
+function openchord(){
+    document.getElementById('detail_section').innerHTML = hidden();
+}
 </script>
 <body>
     <header class ="header">
@@ -77,7 +86,7 @@
                 <div class="card">
                     <div class ="img-cover">
                         <br>
-                        <img src="images/cover.jpg" width="100%" height="auto">
+                        <img id = "cover" src = "" width="100%" style = "width: 180px;" height="auto">
                     </div>
                 </div>
             </div>
@@ -85,7 +94,7 @@
                 <div class="card">
                     <h1 id ="name"></h1>
                     <hr>
-                    <p>Produced on <a id ="pdate">xx xxx xxxx</a></p>
+                    <p>Produced on <a id ="pdate"></a></p>
                     <p>Rating : &#11088;&#11088;&#11088;&#11088; (140) </p>
                     <div id =" element">
                         <p id="brand" style="display: inline;">Brand :</p>
@@ -93,25 +102,25 @@
                     </div>
                     <p>Type : <a id ="type" ></a></p>
                     <hr>
-                    <div class = "col-mid-upper-nav">
+                    <div class = "col-mid-upper-nav" >
                         <nav>
                             <br>
                             <a  >Detail</a>
-                            <a >Chord</a>
+                            <a onclick="openchord()">Chord</a>
                             <a >Lyric</a>
                             <a >Album</a>
                         </nav>
                      </div>
-                     <div class ="detail">
+                     <div class ="detail" id ="detail_section">
                          <h2>Detail</h2>
                         <p>
                             <br><a id = "detail" ></a>
                             <br><br><br><br><br><hr>
                         </p>
                      </div>
-                     <div class ="chord"></div>
-                     <div class ="lyric"></div>
-                     <div class ="album"></div>
+                     <div class ="chord" id ="chord"></div>
+                     <div class ="lyric" id ="lyric"></div>
+                     <div class ="album" id ="album"></div>
                 </div>
             </div>
             <div class="column-right">
@@ -130,44 +139,6 @@
         <f>@drive sound</f>
     </footer>
 
-
-
-
-    <!-- <div class="header1">
-        <p id="i">Result</p>
-        <br>
-        <br>
-    <h1 style="text-align:center">SUGAR</h1>
-    <br>
-
-    <audio controls autoplay>
-        <source src="maroon-5-sugar.mp3" type="audio/mpeg">
-      </audio>
-    <br>
-    <br>
-
-    <div class="row">
-        <div class="column">
-            <div class="card">
-                <img src="sugar.jpg" style="width:60%" style="height: 50%">
-                <div class="container">
-                    <br>
-
-                    <h2 class="title" style="background-color:powderblue;">Maroon 5</h2> <br>
-                    <p style="text-align:left"> Maroon 5 is an American pop rock band from Los Angeles, California. It currently consists of lead vocalist Adam Levine, keyboardist and rhythm guitarist Jesse Carmichael, lead guitarist James Valentine, drummer Matt Flynn, keyboardist
-                        PJ Morton and multi-instrumentalist and bassist Sam Farrar. Original members Levine, Carmichael, bassist Mickey Madden, and drummer Ryan Dusick first came together as Kara's Flowers in 1994, while they were still in high school.</p>
-                    <p></p><br>
-                    <img src="Sugar2.png" style="width:60%" style="height: 50%"><br>
-                    <br>
-                    <h2 class="title" style="background-color:powderblue;">Sugar</h2>
-                    <p style="text-align:left">
-                        <br>"Sugar" is a song recorded by American band Maroon 5 for their fifth studio album V (2014). It was written by Mike Posner, Adam Levine, Dr. Luke, and Jacob Kasher Hindlin together with its producers Ammo and Cirkut. It was
-                        sent to contemporary hit radio in the United States, as the third single from the album on January 13, 2015. "Sugar" is a disco, funk-pop, and soul song that features a wide range of instruments including percussion, keyboards
-                        and guitars.
-                    </p>
-                </div>
-            </div>
-        </div> -->
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
