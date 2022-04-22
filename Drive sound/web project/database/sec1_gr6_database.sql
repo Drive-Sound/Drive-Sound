@@ -50,15 +50,18 @@ create table song_info(
     song_detail			varchar(1000)	,
     song_chord			varchar(1000)	,
     song_lyric			varchar(1000)	,
-    song_album			varchar(100)	
+    song_album			varchar(100)	,
+    song_photo			varchar(1000)	,
+    song_count_join		int				DEFAULT 0 not null,
+    song_inapp_date	    date			not null
 );
-insert into song_info(song_id,song_name,song_produced_date,song_rating,song_brand,song_solo_musician,song_type_song,song_detail,song_chord,song_lyric,song_album) VALUES
-(00000001,'Sugar','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V'),
-(00000002,'Imagine','1971-9-9','4',null,'John Lennon','Rock','Imagine is the second studio album by English musician John Lennon, released on 9 September 1971 by Apple Records...........',null,null,'Imagine'),
-(00000003,'Blinding light','2019-11-29','4',null,'The Weeknd','Electropop','"Blinding Lights" is a song by Canadian singer-songwriter the Weeknd. It was released on November 29, 2019,..........',null,null,'After Hours'),
-(00000004,'Sugar2','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V'),
-(00000005,'Sugar3','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V'),
-(00000006,'Sugar4','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V');
+insert into song_info(song_id,song_name,song_produced_date,song_rating,song_brand,song_solo_musician,song_type_song,song_detail,song_chord,song_lyric,song_album,song_photo,song_count_join,song_inapp_date) VALUES
+(00000001,'Sugar','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/chord/sugar.png','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/lylics/sugar.png','V','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/sugar.jpg','0','2022-1-13'),
+(00000002,'Imagine','1971-9-9','4',null,'John Lennon','Rock','Imagine is the second studio album by English musician John Lennon, released on 9 September 1971 by Apple Records...........','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/chord/imagine.png','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/lylics/imagine.png','Imagine','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/imagine.jpg','0','2022-1-15'),
+(00000003,'Blinding light','2019-11-29','4',null,'The Weeknd','Electropop','"Blinding Lights" is a song by Canadian singer-songwriter the Weeknd. It was released on November 29, 2019,..........','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/chord/blinding%20light.png','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/lylics/blinding%20light.png','After Hours','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/blinding%20light.jpg','0','2022-1-10'),
+(00000004,'Sugar2','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/chord/sugar.png','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/lylics/sugar.png','V','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/sugar1.jpg','0','2020-1-10'),
+(00000005,'Sugar3','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/chord/sugar.png',null,'V','https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/sugar1.jpg','0','2019-8-12'),
+(00000006,'Sugar4','2015-1-13','4','Maroon 5',null,'Pop','"Sugar" is a song recorded by American band Maroon 5 ..........',null,null,'V',null,'0','2019-1-13');
 
 create table user_like(
 	userid			varchar(5)	not null,
