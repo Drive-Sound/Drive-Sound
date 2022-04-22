@@ -119,7 +119,7 @@ app.post('/register',
 
 // LOGIN PAGE
 
-app.post('/login', ifLoggedin, [
+app.post('/', ifLoggedin, [
     body('user_email').custom((value) => {
         return dbConnection.execute('SELECT email FROM users_login WHERE email=?', [value])
             .then(([rows]) => {
@@ -177,7 +177,11 @@ app.post('/login', ifLoggedin, [
 });
 
 // END OF LOGIN PAGE
-
+app.get('/logout', (req, res) => {
+    //session destroy
+    req.session = null;
+    res.redirect('/Starter');
+});
 
 module.exports = app;
 
