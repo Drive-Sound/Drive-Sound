@@ -10,7 +10,7 @@
     
 </head>
 <script>
-    var lylic,chord,detail,album;
+    var lylic,chord,detail,album,id;
     document.addEventListener("DOMContentLoaded", function () {
         getData();
       });
@@ -36,8 +36,9 @@
                 action: 'post'
             },
             success: function (json) {
-                    console.log(json)
+                    
                     $.each(json, function( index, value ) {
+                        
                         document.getElementById("name").innerHTML = sname_a;
                         
                         if(sbrand_a != '-'){
@@ -79,6 +80,10 @@
                             album = "null";
                         }
                         
+                        id = value.song_id;
+                        
+                        
+                        
                 }) 
                 
             },
@@ -88,7 +93,60 @@
         });
     }
 
-
+function nextpage(){
+    alert(id);
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8888/Result/next',
+        dataType: 'json',
+        data: {
+            id: id+1,
+            action: 'post'
+        },
+        success: function (json) {
+            if(json.length == 0){
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8888/Result/next',
+                    dataType: 'json',
+                    data: {
+                        id: 1,
+                        action: 'post'
+                    },
+                    success: function (json) {
+                        $.each(json, function( index, value ) {
+                
+                            var name = value.song_name;
+                            var brand = value.song_brand;
+                            if(brand == null){
+                                brand = "-";
+                            }
+                            var solo = value.song_solo_musician;
+                            if(solo == null){
+                                solo = "-";
+                            }
+                    
+                            document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+                        })
+                }})
+            }
+            $.each(json, function( index, value ) {
+                
+                var name = value.song_name;
+                var brand = value.song_brand;
+                if(brand == null){
+                    brand = "-";
+                }
+                var solo = value.song_solo_musician;
+                if(solo == null){
+                    solo = "-";
+                }
+        
+                document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+            })
+        }
+})
+}
 
 function openchord(){
     console.log(chord)
@@ -220,7 +278,7 @@ function openalbum(){
                     <li><a >Add to List</a></li>
                 </div>
                 <div class ="next-page">
-                    <a class="button" role="button" ><span class="text">Next Song</span></a>
+                    <a class="button" role="button" onclick="nextpage()"><span class="text">Next Song</span></a>
                 </div>
             </div>
         </div>

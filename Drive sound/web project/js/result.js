@@ -33,6 +33,16 @@ router.post('/',function(req,res){
             return res.send(data);
     })
 })
+router.post('/next',function(req,res){
+    const id = req.body.id;
+    
+    var sql = "SELECT * FROM song_info Where song_id ="+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+
+})
 
 
 

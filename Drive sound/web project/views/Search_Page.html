@@ -30,7 +30,6 @@
             action: 'post'
         },
         success: function (json) {
-            console.log(json)
             document.getElementById('results').style.display = 'inline';
             output = `<thead>
                         <tr>
@@ -41,7 +40,6 @@
                             <th>Produced Date</th>
                         </tr>
                     </thead><br>`;
-                    console.log(json.length)
             if(json.length > 0){
                 $.each(json, function( index, value ) {
 
@@ -52,7 +50,6 @@
                         value.song_solo_musician = '-';
                     }
                     let pdate = value.song_produced_date.split("T")[0];
-                    
                     output += `<tbody>
                         <tr class='clickable-row'>
                             <td id = "sname">`
@@ -82,14 +79,13 @@
         error: function (data) {
             alert('data.responseJSON.error');
         }
+
     });
 });  
 $(document).on('click', '.clickable-row', function (e) {
 var name = $(e.target).closest('tr').find("td:eq(0)").html();
 var brand = $(e.target).closest('tr').find("td:eq(1)").html();
 var solo_musician = $(e.target).closest('tr').find("td:eq(2)").html();
-var type = $(e.target).closest('tr').find("td:eq(3)").html();
-var date = $(e.target).closest('tr').find("td:eq(4)").html().split("T")[0];
 $.ajax({
     type: 'POST',
     url: 'http://localhost:8888/Search',
@@ -98,12 +94,10 @@ $.ajax({
         name: $(name).val(),
         brand: $(brand).val(),
         solo_musician: $(solo_musician).val(),
-        type: $(type).val(),
-        date: $(date).val(),
         action: 'post'
     },
     success: function (json) {
-        alert(name)
+
         fetch("http://localhost:8888/Result",{
             method: "POST",
             headers:{
@@ -112,14 +106,13 @@ $.ajax({
             body: JSON.stringify({
                 name : name,
                 brand : brand,
-                solo_musician : solo_musician,
-                type:type,
-                date:date
+                solo_musician : solo_musician
+               
             })
         })
         .then(response => response.json())
         .then(data => SetResult(data));
-
+        
         document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
         
     },
