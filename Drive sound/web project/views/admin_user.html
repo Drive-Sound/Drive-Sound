@@ -7,7 +7,7 @@
     <script>
         function FetchDataUser() {
             // api url
-            const api_url_user = "http://localhost:8888/admin";
+            const api_url_user = "http://localhost:6001/";
 
             // Defining async function
             async function getapi(url) {
@@ -58,7 +58,7 @@
         function InsertData(event) {
             // Sending and receiving data in JSON format using POST method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/admin/insertUser";
+            var url = "http://localhost:6001/insertUser";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
@@ -84,7 +84,7 @@
         function UpdateData(event) {
             // Sending and receiving data in JSON format using DELETE method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/admin/updateuser";
+            var url = "http://localhost:6001/updateuser";
             xhr.open("PUT", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
@@ -110,7 +110,7 @@
         function DeleteData(event) {
             // Sending and receiving data in JSON format using DELETE method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/admin" + document.getElementById('user_id').value;
+            var url = "http://localhost:6001/" + document.getElementById('user_id').value;
             xhr.open("DELETE", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
