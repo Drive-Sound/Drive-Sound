@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>Admin_Music Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function FetchData() {
+            // api url
+            const api_url = "http://localhost:6001/music";
+
+            // Defining async function
+            async function getapi(url) {
+
+                // Storing response
+                const response = await fetch(url);
+
+                // Storing data in form of JSON
+                var data = await response.json();
+                console.log(data);
+                show(data);
+            }
+            // Calling that async function
+            getapi(api_url);
+
+            // Function to define innerHTML for HTML table
+            function show(data) {
+                let tab =
+                    `<tr class="table table-sm">
+                    <th >song_id</th>
+                    <th>song_name</th>
+                    <th >song_produced_date</th>
+                    <th>song_rating</th>
+                    <th >song_brand</th>
+                    <th>song_solo_musician</th>
+                    <th >song_type_song</th>
+                    <th>song_detail</th>
+                    <th >song_chord</th>
+                    <th>song_lyric</th>
+                    <th >song_album</th>
+                    </tr>`;
+
+                // Loop to access all rows 
+                for (let r of data) {
+                    tab += `<tr class="table table-sm"> 
+                <td >${r.song_id} </td>
+                <td>${r.song_name}</td>
+                <td >${r.song_produced_date}</td> 
+                <td>${r.song_rating}</td>   
+                <td >${r.song_brand}</td>   
+                <td>${r.song_solo_musician}</td>   
+                <td >${r.song_type_song}</td>   
+                <td>${r.song_detail}</td>   
+                <td >${r.song_chord}</td>   
+                <td>${r.song_lyric}</td>   
+                <td >${r.song_album}</td>          
+            </tr>`;
+                }
+                // Setting innerHTML as tab variable
+                document.getElementById("showdata").innerHTML = tab;
+            }
+        }
+
+        function InsertDatamusic(event) {
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:6001/insertmusic";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            //xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+            //xhr.setRequestHeader("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+            //xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'song_id': document.getElementById('song_id').value,
+                'song_name': document.getElementById('song_name').value,
+                'song_produced_date': document.getElementById('song_produced_date').value,
+                'song_rating': document.getElementById('song_rating').value,
+                'song_brand': document.getElementById('song_brand').value,
+                'song_solo_musician': document.getElementById('song_solo_musician').value,
+                'song_type_song': document.getElementById('song_type_song').value,
+                'song_detail': document.getElementById('song_detail').value,
+                'song_chord': document.getElementById('song_chord').value,
+                'song_lyric': document.getElementById('song_lyric').value,
+                'song_album': document.getElementById('song_album').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchData();
+        }
+
+
+        function UpdateDataMusic(event) {
+            // Sending and receiving data in JSON format using DELETE method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:6001/updatemusic";
+            xhr.open("PUT", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'song_id': document.getElementById('song_id').value,
+                'song_name': document.getElementById('song_name').value,
+                'song_produced_date': document.getElementById('song_produced_date').value,
+                'song_rating': document.getElementById('song_rating').value,
+                'song_brand': document.getElementById('song_brand').value,
+                'song_solo_musician': document.getElementById('song_solo_musician').value,
+                'song_type_song': document.getElementById('song_type_song').value,
+                'song_detail': document.getElementById('song_detail').value,
+                'song_chord': document.getElementById('song_chord').value,
+                'song_lyric': document.getElementById('song_lyric').value,
+                'song_album': document.getElementById('song_album').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchData();
+        }
+
+
+        function DeleteDataMusic(event) {
+            // Sending and receiving data in JSON format using DELETE method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:6001/deletemusic/" + document.getElementById('song_id').value;
+            xhr.open("DELETE", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'song_id': document.getElementById('song_id').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchData();
+        }
+        FetchData();
+    </script>
+</head>
+
+<body>
+    <form class="p-3 mb-2 bg-dark text-white" style="text-align:center;">
+        <div class="container">
+            <h2>For Administrators (Data For Music)</h2>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip01">song_id:</label>
+                    <input type="text" class="form-control" id="song_id" placeholder="song_id">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_name:</label>
+                    <input type="text" class="form-control" id="song_name" placeholder="song_name">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_produced_date:</label>
+                    <input type="text" class="form-control" id="song_produced_date" placeholder="song_produced_date">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip01">song_rating:</label>
+                    <input type="text" class="form-control" id="song_rating" placeholder="song_rating">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_brand:</label>
+                    <input type="text" class="form-control" id="song_brand" placeholder="song_brand">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_solo_musician:</label>
+                    <input type="text" class="form-control" id="song_solo_musician" placeholder="song_solo_musician">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip01">song_type_song:</label>
+                    <input type="text" class="form-control" id="song_type_song" placeholder="song_type_song">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_detail:</label>
+                    <input type="text" class="form-control" id="song_detail" placeholder="song_detail">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_chord:</label>
+                    <input type="text" class="form-control" id="song_chord" placeholder="song_chord">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip01">song_lyric:</label>
+                    <input type="text" class="form-control" id="song_lyric" placeholder="song_lyric">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationTooltip02">song_album:</label>
+                    <input type="text" class="form-control" id="song_album" placeholder="song_album">
+                </div>
+            </div>
+
+            <br>
+            <button onclick="InsertDatamusic()">Insert Data</button>
+            <button onclick="UpdateDataMusic()">Update Data</button>
+            <button onclick="DeleteDataMusic()">Delete Data</button>
+            <input type="reset" value="Reset" style="background-color: red; color: white" />
+            <br>
+            <br>
+            <br>
+            <h3>Registered Music Info</h3>
+            <!-- table for showing data -->
+        </div>
+        <table class="table-primary" id="showdata"></table>
+        </div>
+    </form>
+</body>
+
+</html>
