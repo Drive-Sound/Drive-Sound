@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login page</title>
+    <link rel="stylesheet" href="css/styleforlogin.css">
+</head>
+
+
+<body>
+    <header class="header">
+        <a href="/Starter"><img src="images/Logo_DriveSound-01.png" width="100px"></a>
+    </header>
+
+
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign
+                In</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+
+
+
+            <div class="login-form">
+                <div class="sign-in-htm">
+                    <form action="" method="POST">
+                        <div class="group">
+                            <label for="_email" class="label">Email</label>
+                            <input type="text" name="user_email" id="_email" class="form-control" placeholder="Email"
+                                rnodeequired>
+                        </div>
+                        <div class="group">
+                            <label for="_pass" class="label">Password</label>
+                            <input type="password" name="user_pass" id="_pass" class="form-control"
+                                placeholder="Password" required>
+                        </div>
+                        <div class="hr"></div>
+
+                        <button type="submit" class="button">Login</button>
+                    </form>
+                </div>
+
+
+
+                <div class="sign-up-htm">
+                    <form action="register" method="POST" novalidate>
+                        <div class="group">
+                            <label for="_rname">Name</label>
+                            <input type="text" name="user_name" id="_rname" class="form-control" placeholder="Name"
+                                required>
+                        </div>
+
+                        <div class="group">
+                            <label for="_remail" class="label">Email Address</label>
+                            <input type="email" name="user_email" id="_remail" class="form-control" placeholder="Email"
+                                required>
+                        </div>
+
+                        <div class="group">
+                            <label for="pass" class="label">Password</label>
+                            <input type="password" name="user_pass" id="_rpass" class="form-control"
+                                placeholder="Password" required>
+                        </div>
+                        <div class="group">
+                            <input type="radio" id="_role" name="user_role" value="a">
+                            <label for="_role">Admins</label>
+
+                            <input type="radio" id="role" name="user_role" value="u">
+                            <label for="role">User</label>
+                        </div>
+
+                        <button type="submit" class="button">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <footer class="footer">
+        <f>@drive sound</f>
+    </footer>
+</body>
+
+
+</html>
