@@ -11,13 +11,14 @@
 </head>
 <script>
     var val = document.getElementById('criteria');
+    var name,brand,solo;
     function update() {
         var select = document.getElementById('criteria');
         var option = select.options[select.selectedIndex];
         val = option.value;
         console.log(val)
     }
-    
+  
     var obj;
     $(document).on('click', '.searchButton', function () {
     $.ajax({
@@ -31,44 +32,66 @@
         },
         success: function (json) {
             document.getElementById('results').style.display = 'inline';
-            output = `<thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Brand</th>
-                            <th>Solo Musician</th>
-                            <th>Type</th>
-                            <th>Produced Date</th>
-                        </tr>
-                    </thead><br>`;
+            let output = `<hr>`;
             if(json.length > 0){
                 $.each(json, function( index, value ) {
 
                     if(value.song_brand == null){
                         value.song_brand = '-';
+                        brand = value.song_brand;
                     }
                     if(value.song_solo_musician == null){
                         value.song_solo_musician = '-';
+                        brand = value.song_solo_musician;
                     }
+                    name = value.song_name;
                     let pdate = value.song_produced_date.split("T")[0];
-                    output += `<tbody>
-                        <tr class='clickable-row'>
-                            <td id = "sname">`
-                            +value.song_name+
-                            `</td>
-                            <td id = "sbrand">`
-                            +value.song_brand+
-                            `</td>
-                            <td id = "song_solo_musician">`
-                            +value.song_solo_musician+
-                            `</td>
-                            <td id = "type">`
-                                +value.song_type_song+
-                                `</td>
-                            <td id = "sprodate" type= "date">`
-                                +pdate+
-                                `</td>
-                        </tr>
-                    </tbody><br>`
+                    if(value.song_photo == null){
+                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 300px; height : 80px; display: inline-block; margin-left: 3% "">
+                                        <div class="row g-0">
+                                        <div class="col-md-4">
+                                            
+                                            <img src="./public/images/cover song/cover.jpg" class="img-fluid rounded-start" alt="..."style = "width: 100px; padding: 2px ">
+                                        </div>`
+                    }else{
+                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 300px; display: inline-block; margin-left: 3%">
+                                        <div class="row g-0">
+                                        <div class="col-md-4">
+                                            
+                                            <img src="`+value.song_photo+`" class="img-fluid rounded-start" alt="..."style = "width: 100px; padding: 2px">
+                                        </div>`
+                    }
+                    if(value.song_brand == '-'){
+                        output += `
+                              <div class="col-md-8">
+                                <div class="card-body">
+                                  <h5 class="card-title" id ="name">`+value.song_name+`<p style ="visibility: hidden; display: inline-block;">#sn</h5>
+                                  <p class="card-text text-white" id ="solo"><small class="text-muted">`+value.song_solo_musician+`<p1 style ="visibility: hidden; display: inline-block;">#ss</small></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>`
+                    }else{
+                        output += `
+                              <div class="col-md-8">
+                                <div class="card-body">
+                                  <h5 class="card-title" id ="name">`+value.song_name+`<p style ="visibility: hidden; display: inline-block;">#sn</h5>
+                                  <p class="card-text text-white" id ="brand"><small class="text-muted">`+value.song_brand+`<p1 style ="visibility: hidden; display: inline-block;">#sb</small></p>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                                class="mask"
+                                style="
+                                background: linear-gradient(
+                                    45deg,
+                                    rgba(29, 236, 197, 0.5),
+                                    rgba(91, 14, 214, 0.5) 100%
+                                );
+                                "
+                            ></div>
+                          </div>`
+                    }
                     
             }) 
             }else{
@@ -82,18 +105,61 @@
 
     });
 });  
-$(document).on('click', '.clickable-row', function (e) {
-var name = $(e.target).closest('tr').find("td:eq(0)").html();
-var brand = $(e.target).closest('tr').find("td:eq(1)").html();
-var solo_musician = $(e.target).closest('tr').find("td:eq(2)").html();
+
+
+//move
+$(document).on('click', '.card', function (e) {
+    //alert($(this).)
+    var text = $(e.target).text();
+    var form ;
+    for(var i = 0; i < text.length ; i++){
+        if(text[i] != " " ){
+            form += text[i];
+        }else{
+            if(text[i+1] != " "){
+                form += text[i];
+            }
+        }
+        
+    }
+    let a = form.split(/\r?\n/)
+    var data_name = a[1].split('#');
+    var data_solo_brand = a[2].split('#');
+    var name,brand,solo_musician;
+    if(data_solo_brand[1] == 'ss'){
+        brand = "-"
+        var data = data_solo_brand[0];
+        var temp = "0/";
+        for(var i = 0 ; i< data.length-1 ; i++){
+            temp += data[i+1];
+        }
+        var data_temp = temp.split('/')
+        solo_musician = data_temp[1];
+    }else{
+        solo_musician = "-"
+        var data = data_solo_brand[0];
+        var temp = "0/";
+        for(var i = 0 ; i< data.length-1 ; i++){
+            temp += data[i+1];
+        }
+        var data_temp = temp.split('/')
+        brand = data_temp[1];
+    }
+    var data = data_name[0];
+    var temp = "0/";
+    for(var i = 0 ; i< data.length-1 ; i++){
+        temp += data[i+1];
+    }
+    var data_temp = temp.split('/')
+    name = data_temp[1];
 $.ajax({
     type: 'POST',
     url: 'http://localhost:8888/Search',
     dataType: 'json',
     data: {
-        name: $(name).val(),
-        brand: $(brand).val(),
-        solo_musician: $(solo_musician).val(),
+        name: name,
+        brand: brand,
+        solo_musician: solo_musician,
         action: 'post'
     },
     success: function (json) {
@@ -112,7 +178,6 @@ $.ajax({
         })
         .then(response => response.json())
         .then(data => SetResult(data));
-        
         document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
         
     },
@@ -121,7 +186,6 @@ $.ajax({
     }
 });
 });
-
 </script>
 <body onload="update()">
 <header class ="header">

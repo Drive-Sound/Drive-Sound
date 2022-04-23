@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+/* Latest compiled and minified CSS included as External Resource*/
+
+/* Optional theme */
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css');
+
+body {
+    margin: 10px;
+}
+</style>
+<script>
+    $(document).ready(function() {
+        $('.item').on('click', function(e) {
+            alert(e.target.id)
+          var txt = $(this).text();
+          var form = $("input[name='item']");
+      
+          form.val(txt);
+      
+          console.log(form.val());
+        });
+      });
+</script>
+<div id="itemListContainer">
+    <table class=' table headertable'>
+      <tr class='tableheader'>
+        <th class='quanity cell'>Quanity</th>
+        <th class='package cell'>Packages</th>
+        <th class='item cell'>Item</th>
+        <th class='cost cell'>Cost</th>
+        <th class='store cell'>Store</th>
+      </tr>
+    </table>
+    <table class='table'>
+      <tr>
+        <td class='quanity cell'>quanity 1</td>
+        <td class='package cell'>package 1</td>
+        <td class='item cell'>item 1</td>
+        <td class='cost cell'>$coleuro 1</td>
+        <td class='store cell'>store 1</td>
+      </tr>
+      <tr>
+        <td class='quanity cell'>quanity 2</td>
+        <td class='package cell'>package 2</td>
+        <td class='item cell'>item 2</td>
+        <td class='cost cell'>$coleuro 2</td>
+        <td class='store cell'>store 2</td>
+      </tr>
+      <tr>
+        <td class='quanity cell'>quanity 3</td>
+        <td class='package cell'>package 3</td>
+        <td class='item cell'>item 3</td>
+        <td class='cost cell'>$coleuro 3</td>
+        <td class='store cell'>store 3</td>
+      </tr>
+    </table>
+  </div>
+  
+  <form id="addingredientsform" action="index.php" method="post">
+    <input type="text" name="quanity" size="6" placeholder="Quanity">
+    <input type="text" name="package" size="6" placeholder="Packages">
+    <input type="text" name="item" size="25" placeholder="Item">
+    <input type="text" name="cost" size="5" placeholder="Cost">
+    <select name="store" placeholder="Store">
+      <option value="Lidl" selected>Lidl</option>
+      <option value="S-Mart">S-Mart</option>
+      <option value="K-Mart">K-Mart</option>
+    </select>
+    <input type="submit" name="submit" value="Add Ingredient">
+    <input type="submit" name="update" value="Update Ingredient">
+  </form>
+  
