@@ -14,9 +14,8 @@
     document.addEventListener("DOMContentLoaded", function () {
         getData();
       });
-      function getData(){
+    function getData(){
         let url = window.location.href
-        console.log(url)
         let data=url.split("/")[3];
         let sname=data.split("?")[1];
         let sbrand=data.split("?")[2];
@@ -93,7 +92,6 @@
                         }
                         
                         id = value.song_id;
-                        console.log(id)
                         
                         
                 }) 
@@ -104,115 +102,127 @@
             }
         });
     }
-
-function nextpage(){
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8888/Result/next',
-        dataType: 'json',
-        data: {
-            id: id+1,
-            action: 'post'
-        },
-        success: function (json) {
-            if(json.length == 0){
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8888/Result/next',
-                    dataType: 'json',
-                    data: {
-                        id: 1,
-                        action: 'post'
-                    },
-                    success: function (json) {
-                        $.each(json, function( index, value ) {
-                
-                            var name = value.song_name;
-                            var brand = value.song_brand;
-                            if(brand == null){
-                                brand = "-";
-                            }
-                            var solo = value.song_solo_musician;
-                            if(solo == null){
-                                solo = "-";
-                            }
-                    
-                            document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
-                        })
-                }})
+    function listbrand(){
+            var data = document.getElementById('brand_name').innerHTML;
+            if(document.getElementById('brand').innerHTML == 'Solo Musician :'){
+                location.href = '/List?Artist='+data;
+            }else{
+                location.href = '/List?Brand='+data;
             }
-            $.each(json, function( index, value ) {
-                
-                var name = value.song_name;
-                var brand = value.song_brand;
-                if(brand == null){
-                    brand = "-";
-                }
-                var solo = value.song_solo_musician;
-                if(solo == null){
-                    solo = "-";
-                }
-        
-                document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
-            })
         }
-})
-}
+    function listtype(){
+            var data = document.getElementById('type').innerHTML;
+            if(data == "R&amp;B"){
+                data = 'R&B'
+            }
+            location.href = '/List?Type='+data;
+        }
+    function nextpage(){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/next',
+                dataType: 'json',
+                data: {
+                    id: id+1,
+                    action: 'post'
+                },
+                success: function (json) {
+                    if(json.length == 0){
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8888/Result/next',
+                            dataType: 'json',
+                            data: {
+                                id: 1,
+                                action: 'post'
+                            },
+                            success: function (json) {
+                                $.each(json, function( index, value ) {
+                        
+                                    var name = value.song_name;
+                                    var brand = value.song_brand;
+                                    if(brand == null){
+                                        brand = "-";
+                                    }
+                                    var solo = value.song_solo_musician;
+                                    if(solo == null){
+                                        solo = "-";
+                                    }
+                            
+                                    document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+                                })
+                        }})
+                    }
+                    $.each(json, function( index, value ) {
+                        
+                        var name = value.song_name;
+                        var brand = value.song_brand;
+                        if(brand == null){
+                            brand = "-";
+                        }
+                        var solo = value.song_solo_musician;
+                        if(solo == null){
+                            solo = "-";
+                        }
+                
+                        document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+                    })
+                }
+        })
+        }
+    function openchord(){
+            let output = `<h2>Chord</h2>`;
+            if(chord != "null"){
+                output += `
+                            <p>
+                                <br><img id = "chord" src = "`+chord+`" width="100%" style = "width: 465px;" height="auto">
+                                <br><hr>        
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
 
-function openchord(){
-    console.log(chord)
-    let output = `<h2>Chord</h2>`;
-    if(chord != "null"){
-        output += `
-                    <p>
-                        <br><img id = "chord" src = "`+chord+`" width="100%" style = "width: 465px;" height="auto">
-                        <br><hr>        
-                    </p>`
-    }else{
-        output += `
-                    <p>
-                        <br><a>No Data Yet !!!</a>
-                        <br><br><br><br><br><hr>
-                    </p>`
-    }
-
-    document.getElementById("detail_section").innerHTML = output;
-}
-function opendetail(){
-    let output = `<h2>Detail</h2>`;
-    if(detail != "null"){
-        output += `
-                    <p>
-                        <br><a id = "detail" >`+detail+`</a>
-                        <br><br><br><br><br><hr>
-                    </p>`
-    }else{
-        output += `
-                    <p>
-                        <br><a>No Data Yet !!!</a>
-                        <br><br><br><br><br><hr>
-                    </p>`
-    }
-    document.getElementById("detail_section").innerHTML = output;
-}
-function openlylic(){
-    let output = `<h2>Lyric</h2>`;
-    if(lylic != "null"){
-        output += `
-                    <p>
-                        <br><img id = "lyric" src = "`+lylic+`" width="100%" style = "width: 465px;" height="auto">
-                        <br><hr>
-                    </p>`
-    }else{
-        output += `
-                    <p>
-                        <br><a>No Data Yet !!!</a>
-                        <br><br><br><br><br><hr>
-                    </p>`
-    }
-    document.getElementById("detail_section").innerHTML = output;
-}
-function openalbum(){
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function opendetail(){
+            let output = `<h2>Detail</h2>`;
+            if(detail != "null"){
+                output += `
+                            <p>
+                                <br><a id = "detail" >`+detail+`</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function openlylic(){
+            let output = `<h2>Lyric</h2>`;
+            if(lylic != "null"){
+                output += `
+                            <p>
+                                <br><img id = "lyric" src = "`+lylic+`" width="100%" style = "width: 465px;" height="auto">
+                                <br><hr>
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function openalbum(){
     let output = `<h2>Album</h2>`;
     if(album != "null"){
         output += `
@@ -258,17 +268,17 @@ function openalbum(){
                     <p>Rating : &#11088;&#11088;&#11088;&#11088; (140) </p>
                     <div id =" element">
                         <p id="brand" style="display: inline;">Brand :</p>
-                        <a id = "brand_name" style="display: inline;" ></a> 
+                        <a class = "search" id = "brand_name" style="display: inline; cursor:pointer" onclick="listbrand()" ></a> 
                     </div>
-                    <p>Type : <a id ="type" ></a></p>
+                    <p>Type : <a class ="search" onclick="listtype()" id ="type" style="cursor:pointer"></a></p>
                     <hr>
                     <div class = "col-mid-upper-nav" >
                         <nav>
                             <br>
-                            <a class="btn" onclick="opendetail()" >Detail</a>
-                            <a class="btn" onclick="openchord()">Chord</a>
-                            <a class="btn" onclick="openlylic()">Lyric</a>
-                            <a class="btn" onclick="openalbum()">Album</a>
+                            <a class="btn" style="cursor:pointer" onclick="opendetail()" >Detail</a>
+                            <a class="btn" style="cursor:pointer" onclick="openchord()">Chord</a>
+                            <a class="btn" style="cursor:pointer" onclick="openlylic()">Lyric</a>
+                            <a class="btn" style="cursor:pointer" onclick="openalbum()">Album</a>
                         </nav>
                      </div>
                      <div class = "container_bot">
@@ -284,12 +294,12 @@ function openalbum(){
             </div>
             <div class="column-right">
                 <div class="card">
-                    <li><a  >Listened</a></li><br>
-                    <li><a >Like</a></li><br>
-                    <li><a >Add to List</a></li>
+                    <li><a id = "listened" style="cursor:pointer">Listened</a></li><br>
+                    <li><a id = "like" style="cursor:pointer">Like</a></li><br>
+                    <li><a id = "add" style="cursor:pointer">Add to List</a></li>
                 </div>
                 <div class ="next-page">
-                    <a class="button" role="button" onclick="nextpage()"><span class="text">Next Song</span></a>
+                    <a class="button" role="button" onclick="nextpage()"><span class="text" id = "next" >Next Song</span></a>
                 </div>
             </div>
         </div>

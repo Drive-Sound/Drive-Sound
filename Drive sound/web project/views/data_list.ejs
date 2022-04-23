@@ -13,18 +13,50 @@
     function getData(){
         let url = window.location.href
         let data=url.split("?")[1];
-        let newdata = data.split("-");
-        let output = newdata[0];
-        for(var i = 1;i<newdata.length; i++){
-            output +=" "+newdata[i];
+        //console.log(data)
+        output_set = data.split("=")
+        var type_data,s_data;
+        if(output_set[0] == 'new-in-drive-sound'){
+            let newdata = data.split("-");
+            let output = newdata[0];
+            for(var i = 1;i<newdata.length; i++){
+                output +=" "+newdata[i];
+            }
+            document.getElementById('headline').innerHTML += output;
+            type_data = 'all';
+        }else if(output_set[0] == 'popular-in-drive-sound'){
+            let newdata = data.split("-");
+            let output = newdata[0];
+            for(var i = 1;i<newdata.length; i++){
+                output +=" "+newdata[i];
+            }
+            document.getElementById('headline').innerHTML += output;
+            type_data = 'all-pop';
+        }else{
+            let x = output_set[1].split('%20')
+            let x_change = x[0];
+                for(var i = 1 ; i< x.length ; i++){
+                    x_change +=" "+x[i];
+                }
+            var text = output_set[0] + " : " +x_change;
+            if(output_set[0] == 'Type'){
+                type_data = 'song_type_song'
+            }else if(output_set[0] == 'Brand'){
+                type_data = 'song_brand'
+            }else if(output_set[0] == 'Artist'){
+                type_data = 'song_solo_musician'
+            }
+            s_data = x_change;
+            document.getElementById('headline').innerHTML += text;
         }
-        document.getElementById('headline').innerHTML += output;
-        
+   
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8888/List',
             dataType: 'json',
             data: {
+                type_data: type_data,
+                s_data: s_data,
                 action: 'post'
             },
             success: function (json) {

@@ -62,10 +62,37 @@ body {
     text-decoration: none;
     color: inherit;
 }
-.container a:hover{
+
+.btn:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #next:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #add:hover{
     text-decoration: none;
     color:aquamarine;
 }
+.container #brand_name:hover{
+    text-decoration: none;
+    color:aquamarine;
+}
+.container #type:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #listened:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #like:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+
+
 .container nav{
     height: 52px;
     background-color: #242b3a;

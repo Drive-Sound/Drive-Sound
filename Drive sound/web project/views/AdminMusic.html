@@ -4,6 +4,8 @@
 <head>
     <title>Admin_Music Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
     <script>
         function FetchData() {
             // api url
@@ -42,10 +44,11 @@
 
                 // Loop to access all rows 
                 for (let r of data) {
+                    var x = r.song_produced_date.split('T');
                     tab += `<tr class="table table-sm"> 
                 <td >${r.song_id} </td>
                 <td>${r.song_name}</td>
-                <td >${r.song_produced_date}</td> 
+                <td >${x[0]}</td> 
                 <td>${r.song_rating}</td>   
                 <td >${r.song_brand}</td>   
                 <td>${r.song_solo_musician}</td>   

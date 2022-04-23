@@ -19,6 +19,7 @@ app.use("",router);
 router.post('/',function(req,res){
     const sname = req.body.search;
     const type = req.body.type_search;
+    
     var sql;
     if(type == "name"){
         sql = "SELECT * FROM song_info Where song_name LIKE '%"+sname+"%'";
@@ -26,6 +27,8 @@ router.post('/',function(req,res){
         sql = "SELECT * FROM song_info Where song_brand LIKE '%"+sname+"%'";
     }else if(type == "solo"){
         sql = "SELECT * FROM song_info Where song_solo_musician LIKE '%"+sname+"%'";
+    }else if(type == "song_photo"){
+        sql = "SELECT * FROM song_info Where song_photo = '"+sname+"'";
     }else{
         sql = "SELECT * FROM song_info Where song_type_song LIKE '%"+sname+"%'";
     }
@@ -35,6 +38,7 @@ router.post('/',function(req,res){
             return res.send(data);
     })
 })
+
 
 
 

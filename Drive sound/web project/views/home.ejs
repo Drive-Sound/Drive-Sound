@@ -11,13 +11,13 @@
            
         document.addEventListener("DOMContentLoaded", function () {
             getData();
+            setnewlist();
+            setpoplist();
           });
-          function getData(){
+        function getData(){
             let url = window.location.href
-            console.log(url)
             let data=url.split("/");
             let name=data[3].split("?");
-            console.log(name[1]);
             var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
                         <nav class ="nav">
                             <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
@@ -30,7 +30,111 @@
               
               output += `<a href="/Login/logout">Logout</a></nav>`  
               document.getElementById('head').innerHTML = output;
+            }
+        function setnewlist(){
+              $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Home',
+                dataType: 'json',
+                data: {
+                    type_data: 'all',
+                    s_data: 'all',
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('cover_for_new1').src = json[0].song_photo;
+                    document.getElementById('cover_for_new2').src = json[1].song_photo;
+                    document.getElementById('cover_for_new3').src = json[2].song_photo;
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+        
+            });
           }
+        function setpoplist(){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Home',
+                dataType: 'json',
+                data: {
+                    type_data: 'all-pop',
+                    s_data: 'all',
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('cover_for_pop1').src = json[0].song_photo;
+                    document.getElementById('cover_for_pop2').src = json[1].song_photo;
+                    document.getElementById('cover_for_pop3').src = json[2].song_photo;
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+        
+            });
+          }
+        function selecttype(){
+            var x = document.getElementById("type").value;
+            console.log(x)
+            document.getElementById('btn').style.pointerEvents = "auto"; 
+        }
+        function senturlnew1(){
+            var val =document.getElementById('cover_for_new1').src;
+            searchsong(val);
+        }
+        function senturlnew2(){
+            var val =document.getElementById('cover_for_new2').src;
+            searchsong(val);
+        }
+        function senturlnew3(){
+            var val =document.getElementById('cover_for_new3').src;
+            searchsong(val);
+        }
+        function senturlpop1(){
+            var val =document.getElementById('cover_for_pop1').src;
+            searchsong(val);
+        }
+        function senturlpop2(){
+            var val =document.getElementById('cover_for_pop2').src;
+            searchsong(val);
+        }
+        function senturlpop3(){
+            var val =document.getElementById('cover_for_pop3').src;
+            searchsong(val);
+        }
+        function searchsong(x){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Search',
+                dataType: 'json',
+                data: {
+                    search: x,
+                    type_search: 'song_photo',
+                    action: 'post'
+                },
+                success: function (json) {
+                    $.each(json, function( index, value ) {
+                        if(value.song_brand == null){
+                            document.location.href = '/Result?'+value.song_name+"?-?"+value.song_solo_musician;
+                        }else{
+                            document.location.href = '/Result?'+value.song_name+"?"+value.song_brand+"?-";
+                        }
+                        
+                    })
+                    
+            //location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
+        },
+        error: function (data) {
+            alert('data.responseJSON.error');
+        }
+        });
+        }
+        $(document).on('click', '.search', function () {
+            var type = document.getElementById('type').value;
+            console.log(type)
+            location.href = '/List?Type='+type;
+            
+        })
        </script>
         <body>
 
@@ -49,21 +153,21 @@
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.1.jpg" style="width:100%" ></a>
+                                    <a ><img id = "cover_for_new1" onClick = "senturlnew1()" src="images/Img.1.jpg" value ="song" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.3.jpg" style="width:100%" ></a>
+                                    <a href="/Home"><img id = "cover_for_new2" onClick = "senturlnew2()" src="images/Img.3.jpg" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.2.jpg" style="width:100%" ></a>
+                                    <a href="/Home"><img id = "cover_for_new3" onClick = "senturlnew3()" src="images/Img.2.jpg" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +179,7 @@
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.1.jpg" style="width:100%" > </a>
+                                        <a href="/Home"><img id = "cover_for_pop1" onClick = "senturlpop1()" src="images/Img.1.jpg" style="width:100%" > </a>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +187,7 @@
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.3.jpg" style="width:100%" ></a>
+                                        <a href="/Home"><img id = "cover_for_pop2" onClick = "senturlpop2()" src="images/Img.3.jpg" style="width:100%" ></a>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +195,7 @@
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.2.jpg" style="width:100%" ></a>
+                                        <a href="/Home"><img id = "cover_for_pop3" onClick = "senturlpop3()" src="images/Img.2.jpg" style="width:100%" ></a>
                                     </div>
                                 </div>
                             </div>
@@ -100,16 +204,20 @@
                 <div class ="category">   
                     <br>
                     <h>Category</h>   
-                    <div class="select">
-                            <select>
+                    <div class="select" >
+                            <select id ="type" onchange="selecttype()" >
                                 <option value="" disabled selected>Select type of music</option>
-                                <option class="option" value="2">jazz</option>
-                                <option class="option" value="3">rock&roll</option>
-                                <option class="option" value="3">blue</option>
+                                <option class="option" value="pop">pop</option>
+                                <option class="option" value="rock">rock</option>
+                                <option class="option" value="Indie">Indie</option>
+                                <option class="option" value="R&B">R&B</option>
+                                <option class="option" value="Alternative">Alternative</option>
+                                <option class="option" value="Electropop">Electropop</option>
+                                <option class="option" value="Hip-Hop">Hip-Hop</option>
                             </select>
                     </div>
                     <div>
-                        <button type="button" onclick="alert('Hello world!')">Click Me!</button>
+                        <button class = "search" id="btn" type ="button" value="Submit" >Click Me!</button>
                     </div>
                 </div>  
 
