@@ -21,10 +21,25 @@
         let sname=data.split("?")[1];
         let sbrand=data.split("?")[2];
         let ssolo=data.split("?")[3];
-        sname_a = sname.replace('%20',' ')
-        sbrand_a = sbrand.replace('%20',' ')
-        ssolo_a = ssolo.replace('%20',' ')
-
+        let data_name = sname.split('%20')
+        let sname_a = data_name[0];
+        for(var i = 1 ; i< data_name.length ; i++){
+            sname_a +=" "+data_name[i];
+        }
+        let data_brand = sbrand.split('%20')
+        let sbrand_a = data_brand[0];
+        for(var i = 1 ; i< data_brand.length ; i++){
+            sbrand_a +=" "+data_brand[i];
+        }
+        let data_solo = ssolo.split('%20')
+        let ssolo_a = data_solo[0];
+        for(var i = 1 ; i< data_solo.length ; i++){
+            ssolo_a +=" "+data_solo[i];
+        }
+        //sname_a = sname.replace('%20',' ')
+        //sbrand_a = sbrand.replace('%20',' ')
+        //ssolo_a = ssolo.replace('%20',' ')
+        console.log(sname_a)
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8888/Result',
