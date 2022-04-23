@@ -109,7 +109,6 @@
 
 //move
 $(document).on('click', '.card', function (e) {
-    //alert($(this).)
     var text = $(e.target).text();
     var form ;
     for(var i = 0; i < text.length ; i++){
@@ -178,7 +177,6 @@ $.ajax({
         })
         .then(response => response.json())
         .then(data => SetResult(data));
-        alert(name)
         document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
         
 

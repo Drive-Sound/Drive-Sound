@@ -36,10 +36,7 @@
         for(var i = 1 ; i< data_solo.length ; i++){
             ssolo_a +=" "+data_solo[i];
         }
-        //sname_a = sname.replace('%20',' ')
-        //sbrand_a = sbrand.replace('%20',' ')
-        //ssolo_a = ssolo.replace('%20',' ')
-        console.log(sname_a)
+        
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8888/Result',
