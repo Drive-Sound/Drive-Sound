@@ -1,16 +1,16 @@
 var express = require('express');
 const bodyParser = require('body-parser')
 const mysql = require('mysql');
-const admin = express.Router()
+const admin = express()
 var cors = require('cors')
 const dotenv = require('dotenv');
 
 dotenv.config();
-const port =  8888;
+const port = 6001;
 
 admin.use(express.static('/'))
-admin.use('public/css',express.static(__dirname + 'css'))
-admin.use('public/image',express.static(__dirname + 'images'))
+admin.use('public/css', express.static(__dirname + 'css'))
+admin.use('public/image', express.static(__dirname + 'images'))
 
 admin.use(bodyParser.urlencoded({ extended: false }))
 
@@ -42,7 +42,7 @@ var corsOptionsDelegate = function(req, callback) {
 //Get SELECT all User
 // Testing SELECT all User
 // method: GET
-// URL: http://localhost:8888/
+// URL: http://localhost:6001/
 admin.get(`/`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -65,7 +65,7 @@ admin.get(`/`, cors(corsOptionsDelegate), (req, res) => {
 //Get SELECT all Music
 // Testing SELECT all music
 // method: GET
-// URL: http://localhost:8888/music
+// URL: http://localhost:6001/music
 admin.get(`/music`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -88,7 +88,7 @@ admin.get(`/music`, cors(corsOptionsDelegate), (req, res) => {
 // SELECT user
 // Testing SELECT User with Id
 // method: GET
-// URL: http://localhost:8888/a0002
+// URL: http://localhost:6001/a0002
 admin.get(`/:user_id`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -111,7 +111,7 @@ admin.get(`/:user_id`, cors(corsOptionsDelegate), (req, res) => {
 //SELECT Music
 // Testing SELECT music with Id
 // method: GET
-// URL: http://localhost:8888/music/1
+// URL: http://localhost:6001/music/1
 admin.get(`/music/:song_id`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -134,7 +134,7 @@ admin.get(`/music/:song_id`, cors(corsOptionsDelegate), (req, res) => {
 //INSERT User
 // Testing Insert a new user
 // method: post
-// URL: http://localhost:8888/insertUser
+// URL: http://localhost:6001/insertUser
 // body: raw JSON
 // {
 //       "user_id" : "u0089",
@@ -177,7 +177,7 @@ admin.post(`/insertUser`, cors(corsOptionsDelegate), (req, res) => {
 //INSERT Music
 // Testing Insert a new music
 // method: post
-// URL: http://localhost:8888/insertmusic
+// URL: http://localhost:6001/insertmusic
 // body: raw JSON
 // {
 // "song_id" : "40",
@@ -228,7 +228,7 @@ admin.post(`/insertmusic`, cors(corsOptionsDelegate), (req, res) => {
 //DELETE User
 // Testing delete User with Id
 // method: DELETE
-// URL: http://localhost:8888/a0002
+// URL: http://localhost:6001/a0002
 admin.delete(`/:user_id`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -252,7 +252,7 @@ admin.delete(`/:user_id`, cors(corsOptionsDelegate), (req, res) => {
 //DELETE Music
 // Testing delete music with Id
 // method: DELETE
-// URL: http://localhost:8888/deletemusic/1
+// URL: http://localhost:6001/deletemusic/1
 admin.delete(`/deletemusic/:song_id`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
@@ -275,7 +275,7 @@ admin.delete(`/deletemusic/:song_id`, cors(corsOptionsDelegate), (req, res) => {
 //UPDATE User
 // Testing update a user
 // method: PUT
-// URL: http://localhost:8888/updateuser
+// URL: http://localhost:6001/updateuser
 // body: raw JSON
 // {
 //       "user_id" : "u0129",
@@ -317,7 +317,7 @@ admin.put(`/updateuser`, (req, res) => {
 //UPDATE Music
 // Testing Update a music
 // method: PUT
-// URL: http://localhost:8888/updatemusic
+// URL: http://localhost:6001/updatemusic
 // body: raw JSON
 // {
 // "song_id" : "60",
@@ -372,5 +372,7 @@ admin.put(`/updatemusic`, (req, res) => {
         })
     })
 })
+
+admin.listen(port, () => console.log(`Listen on POST ${port}`))
 
 module.exports = admin;
