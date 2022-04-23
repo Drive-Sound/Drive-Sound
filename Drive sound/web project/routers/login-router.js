@@ -83,14 +83,14 @@ app.post('/register',
         
         console.log(req.body);
         const validation_result = validationResult(req);
-        const { user_name, user_pass, user_email } = req.body;
+        const { user_name, user_pass, user_email,user_role } = req.body;
         // IF validation_result HAS NO ERROR
         if (true) {
             console.log("pass")
             // password encryption (using bcryptjs)
             bcrypt.hash(user_pass, 12).then((hash_pass) => {
                 // INSERTING USER INTO DATABASE
-                dbConnection.execute("INSERT INTO `users_login`(`name`,`email`,`password`) VALUES(?,?,?)", [user_name, user_email, hash_pass])
+                dbConnection.execute("INSERT INTO `users_login`(`name`,`email`,`password`,`role`) VALUES(?,?,?,?)", [user_name, user_email, hash_pass, user_role])
                     .then(result => {
                         res.send(`your account has been created successfully, Now you can <a href="/Login">Login</a>`);
                     }).catch(err => {
@@ -144,11 +144,8 @@ app.post('/', ifLoggedin, [
                         req.session.isLoggedIn = true;
                         req.session.userID = rows[0].id;
                         req.session.role = rows[0].role;
-                        if(req.session.role === 'a'){
-                            console.log("ss")
-                            alert("admin");
-                        }
-                        res.redirect('/Home');
+                        console.log(rows[0].id);
+                        res.redirect('/Home?'+rows[0].id +'?'+ rows[0].role)
                     }
                     else {
                         res.render('login-register', {

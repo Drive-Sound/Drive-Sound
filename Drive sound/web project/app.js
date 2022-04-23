@@ -26,7 +26,7 @@ const datalist = require('./routers/datalist-router');
 const account = require('./routers/account-router');
 const aboutus = require('./routers/aboutus-router');
 const admin = require('./routers/admin-router');
-
+const adminmusic = require('./routers/admin-music-router');
 
 app.use('/Starter', starter);
 app.use('/Home', home);
@@ -37,6 +37,7 @@ app.use('/List', datalist);
 app.use('/Account', account);
 app.use('/About_Us', aboutus);
 app.use('/Admin', admin);
+app.use('/Adminmusic', adminmusic);
 
 app.listen(8888, () =>{
     console.log(`Server listen on port ${port}`)

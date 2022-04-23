@@ -3,6 +3,7 @@
 <head>
   <title>List Music</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <%- include('./partial/style'); %>
 </head>
 <script>
@@ -18,7 +19,159 @@
             output +=" "+newdata[i];
         }
         document.getElementById('headline').innerHTML += output;
+        
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/List',
+            dataType: 'json',
+            data: {
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById('results').style.display = 'inline';
+                let output = `<hr>`;
+                if(json.length > 0){
+                    $.each(json, function( index, value ) {
+    
+                        if(value.song_brand == null){
+                            value.song_brand = '-';
+                            brand = value.song_brand;
+                        }
+                        if(value.song_solo_musician == null){
+                            value.song_solo_musician = '-';
+                            brand = value.song_solo_musician;
+                        }
+                        name = value.song_name;
+                        let pdate = value.song_produced_date.split("T")[0];
+                        if(value.song_photo == null){
+                            output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`"  style="width: 345px; height : 80px; display: inline-block; margin-left: 1.5% "">
+                                            <div class="row g-0">
+                                            <div class="col-md-4">
+                                                
+                                                <img src="./public/images/cover song/cover.jpg" class="img-fluid rounded-start" alt="..."style = "width: 100px; padding: 2px ">
+                                            </div>`
+                        }else{
+                            output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" style="width: 345px; display: inline-block;  margin-left: 1.5%">
+                                            <div class="row g-0">
+                                            <div class="col-md-4">
+                                                
+                                                <img src="`+value.song_photo+`" class="img-fluid rounded-start" alt="..."style = "width: 100px; padding: 2px">
+                                            </div>`
+                        }
+                        if(value.song_brand == '-'){
+                            output += `
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title" id ="name">`+value.song_name+`<p style ="visibility: hidden; display: inline-block;">#sn</h5>
+                                      <p class="card-text text-white" id ="solo"><small class="text-muted">`+value.song_solo_musician+`<p1 style ="visibility: hidden; display: inline-block;">#ss</small></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>`
+                        }else{
+                            output += `
+                                  <div class="col-md-8">
+                                    <div class="card-body">
+                                      <h5 class="card-title" id ="name">`+value.song_name+`<p style ="visibility: hidden; display: inline-block;">#sn</h5>
+                                      <p class="card-text text-white" id ="brand"><small class="text-muted">`+value.song_brand+`<p1 style ="visibility: hidden; display: inline-block;">#sb</small></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>`
+                        }
+                        
+                }) 
+                }else{
+                    output +=`<p id = "not-found">Not Found</p>`
+                }
+                document.getElementById('results').innerHTML = output;
+            },
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+    
+        });
+}
+$(document).on('click', '.card', function (e) {
+    console.log("Hello")
+    var text = $(e.target).text();
+    var form ;
+    for(var i = 0; i < text.length ; i++){
+        if(text[i] != " " ){
+            form += text[i];
+        }else{
+            if(text[i+1] != " "){
+                form += text[i];
+            }
+        }
+        
     }
+    let a = form.split(/\r?\n/)
+    var data_name = a[1].split('#');
+    var data_solo_brand = a[2].split('#');
+    var name,brand,solo_musician;
+    if(data_solo_brand[1] == 'ss'){
+        brand = "-"
+        var data = data_solo_brand[0];
+        var temp = "0/";
+        for(var i = 0 ; i< data.length-1 ; i++){
+            temp += data[i+1];
+        }
+        var data_temp = temp.split('/')
+        solo_musician = data_temp[1];
+    }else{
+        solo_musician = "-"
+        var data = data_solo_brand[0];
+        var temp = "0/";
+        for(var i = 0 ; i< data.length-1 ; i++){
+            temp += data[i+1];
+        }
+        var data_temp = temp.split('/')
+        brand = data_temp[1];
+    }
+    var data = data_name[0];
+    var temp = "0/";
+    for(var i = 0 ; i< data.length-1 ; i++){
+        temp += data[i+1];
+    }
+    var data_temp = temp.split('/')
+    name = data_temp[1];
+$.ajax({
+    type: 'POST',
+    url: 'http://localhost:8888/Search',
+    dataType: 'json',
+    data: {
+        name: name,
+        brand: brand,
+        solo_musician: solo_musician,
+        action: 'post'
+    },
+    success: function (json) {
+
+        fetch("http://localhost:8888/Result",{
+            method: "POST",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                name : name,
+                brand : brand,
+                solo_musician : solo_musician
+               
+            })
+        })
+        .then(response => response.json())
+        .then(data => SetResult(data));
+        document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
+        
+
+
+    },
+    error: function (data) {
+        alert("error");
+    }
+});
+});
 
 </script>
 <body>
@@ -27,8 +180,12 @@
         <div class = head>
             <h2 id ="headline">List of </h2>
         </div>
+        <form id ="output" method = "get" style = "width: 1500px;" >
+            <table style = "display: none" id = "results" class="table table-hover table-dark">
+            </table>
+        </form>
+        <hr>
     </div>
-    <%- include('./partial/footer'); %>
 </body>
 
 

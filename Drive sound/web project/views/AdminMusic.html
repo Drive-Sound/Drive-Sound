@@ -7,7 +7,7 @@
     <script>
         function FetchData() {
             // api url
-            const api_url = "http://localhost:8888/music";
+            const api_url = "http://localhost:6001/music";
 
             // Defining async function
             async function getapi(url) {
@@ -64,7 +64,7 @@
         function InsertDatamusic(event) {
             // Sending and receiving data in JSON format using POST method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/insertmusic";
+            var url = "http://localhost:6001/insertmusic";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             //xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
@@ -98,7 +98,7 @@
         function UpdateDataMusic(event) {
             // Sending and receiving data in JSON format using DELETE method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/updatemusic";
+            var url = "http://localhost:6001/updatemusic";
             xhr.open("PUT", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
@@ -129,7 +129,7 @@
         function DeleteDataMusic(event) {
             // Sending and receiving data in JSON format using DELETE method
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8888/deletemusic/" + document.getElementById('song_id').value;
+            var url = "http://localhost:6001/deletemusic/" + document.getElementById('song_id').value;
             xhr.open("DELETE", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {

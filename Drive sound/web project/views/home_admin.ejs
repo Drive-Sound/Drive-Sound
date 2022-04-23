@@ -3,79 +3,62 @@
        
         <head>
             <title>Drive Sound</title>
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <link rel="stylesheet" href="css/styleforhome.css">
+            <link rel="stylesheet" href="../public/css/styleforhome.css">
 
         </head>
-       <script>
-           
-        document.addEventListener("DOMContentLoaded", function () {
-            getData();
-          });
-          function getData(){
-            let url = window.location.href
-            console.log(url)
-            let data=url.split("/");
-            let name=data[3].split("?");
-            console.log(name[1]);
-            var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
-                        <nav class ="nav">
-                            <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
-                            <a href="/About_Us?`+name[1]+`?`+name[2]+`">About Us</a>
-                            <a href="/Account?`+name[1]+`?`+name[2]+`">Account</a>`
-              if (name[2] == 'a') {
-                  output += `   <a href="/Admin?`+name[1]+`?`+name[2]+`">User Edit</a>
-                                <a href="/Adminmusic?`+name[1]+`?`+name[2]+`">Music Edit</a>`
-              }
-              
-              output += `<a href="/Login/logout">Logout</a></nav>`  
-              document.getElementById('head').innerHTML = output;
-          }
-       </script>
         <body>
 
-            <header class ="header" id = "head">
+            <header class ="header">
+                    <a href="/HomeAdmin"><img src="../public/images/Logo_DriveSound-01.png" width="100px%"></a>
+                <nav class ="nav">
+                    <a href="/Search">Search</a>
+                    <a href="/About_Us">About Us</a>
+                    <a href="/Account">Account</a>
+                    <a href="/Admin/admin">User Edit</a>
+                    <a href="/Admin/music">Music Edit</a>
+                    <a href="/Login/logout">Logout</a>
+                </nav>
             </header>
             
                 <div class ="bg-image">
-                    <p class="title">Welcome back user</p>
+                    <p class="title">Welcome back Admins</p>
                 </div>
                 
                 <div class ="container">
 
                     
-                    <a href="/List?new-in-drive-sound" style="text-decoration: none" id = "type_list" value = "New in drive sound"><h1> New in drive sound</h1></a>
+                    <a href="/Home" style="text-decoration: none"><h1> New in drive sound</h1></a>
                     <div class="row">
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.1.jpg" style="width:100%" ></a>
+                                    <a href="/Home"><img src="../public/images/Img.1.jpg" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.3.jpg" style="width:100%" ></a>
+                                    <a href="/Home"><img src="../public/images/Img.3.jpg" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="card">
                                 <div class="images">
-                                    <a href="/Home"><img src="images/Img.2.jpg" style="width:100%" ></a>
+                                    <a href="/Home"><img src="../public/images/Img.2.jpg" style="width:100%" ></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                     <div class ="container">
-                        <a href="/List?popular-in-drive-sound"><h1>popular in drive sound</h1></a>
+                        <a href="/Home"><h1>popular in drive sound</h1></a>
                         <div class="row">
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.1.jpg" style="width:100%" > </a>
+                                        <a href="/Home"><img src="../public/images/Img.1.jpg" style="width:100%" > </a>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +66,7 @@
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.3.jpg" style="width:100%" ></a>
+                                        <a href="/Home"><img src="../public/images/Img.3.jpg" style="width:100%" ></a>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +74,7 @@
                             <div class="column">
                                 <div class="card">
                                     <div class="images">
-                                        <a href="/Home"><img src="images/Img.2.jpg" style="width:100%" ></a>
+                                        <a href="/Home"><img src="../public/images/Img.2.jpg" style="width:100%" ></a>
                                     </div>
                                 </div>
                             </div>
