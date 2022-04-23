@@ -47,14 +47,14 @@
                     name = value.song_name;
                     let pdate = value.song_produced_date.split("T")[0];
                     if(value.song_photo == null){
-                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 300px; height : 80px; display: inline-block; margin-left: 3% "">
+                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 345px; height : 80px; display: inline-block; margin-left: 1.5% "">
                                         <div class="row g-0">
                                         <div class="col-md-4">
                                             
                                             <img src="./public/images/cover song/cover.jpg" class="img-fluid rounded-start" alt="..."style = "width: 100px; padding: 2px ">
                                         </div>`
                     }else{
-                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 300px; display: inline-block; margin-left: 3%">
+                        output += `<div class="card text-white bg-dark mb-3 hover-overlay" id = "card-data`+value.song_id+`" onClick ="onClick()" style="width: 345px; display: inline-block;  margin-left: 1.5%">
                                         <div class="row g-0">
                                         <div class="col-md-4">
                                             
@@ -178,10 +178,11 @@ $.ajax({
         })
         .then(response => response.json())
         .then(data => SetResult(data));
+        alert(name)
         document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
         
 
-        
+
     },
     error: function (data) {
         alert("error");

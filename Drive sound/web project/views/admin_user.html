@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>Admin_User Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function FetchDataUser() {
+            // api url
+            const api_url_user = "http://localhost:8888/admin";
+
+            // Defining async function
+            async function getapi(url) {
+
+                // Storing response
+                const response = await fetch(url);
+
+                // Storing data in form of JSON
+                var data = await response.json();
+                console.log(data);
+                showuser(data);
+            }
+            // Calling that async function
+            getapi(api_url_user);
+
+            // Function to define innerHTML for HTML table
+            function showuser(data) {
+                let tab =
+                    `<tr class="table table-sm">
+                    <th >user_id</th>
+                    <th>user_username</th>
+                    <th >user_fname</th>
+                    <th>user_lname</th>
+                    <th >user_bdate</th>
+                    <th>user_tel</th>
+                    <th >user_bio</th>
+                    </tr>`;
+
+                // Loop to access all rows 
+                for (let r of data) {
+                    tab += `<tr class="table table-sm"> 
+                <td >${r.user_id} </td>
+                <td>${r.user_username}</td>
+                <td >${r.user_fname}</td> 
+                <td>${r.user_lname}</td>   
+                <td >${r.user_bdate}</td>   
+                <td>${r.user_tel}</td>   
+                <td >${r.user_bio}</td>          
+            </tr>`;
+                }
+                // Setting innerHTML as tab variable
+                document.getElementById("showdatauser").innerHTML = tab;
+            }
+        }
+
+
+
+        function InsertData(event) {
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:8888/admin/insertUser";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'user_id': document.getElementById('user_id').value,
+                'user_username': document.getElementById('user_username').value,
+                'user_fname': document.getElementById('user_fname').value,
+                'user_lname': document.getElementById('user_lname').value,
+                'user_bdate': document.getElementById('user_bdate').value,
+                'user_tel': document.getElementById('user_tel').value,
+                'user_bio': document.getElementById('user_bio').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchDataUser();
+        }
+
+        function UpdateData(event) {
+            // Sending and receiving data in JSON format using DELETE method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:8888/admin/updateuser";
+            xhr.open("PUT", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'user_id': document.getElementById('user_id').value,
+                'user_username': document.getElementById('user_username').value,
+                'user_fname': document.getElementById('user_fname').value,
+                'user_lname': document.getElementById('user_lname').value,
+                'user_bdate': document.getElementById('user_bdate').value,
+                'user_tel': document.getElementById('user_tel').value,
+                'user_bio': document.getElementById('user_bio').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchDataUser();
+        }
+
+        function DeleteData(event) {
+            // Sending and receiving data in JSON format using DELETE method
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:8888/admin" + document.getElementById('user_id').value;
+            xhr.open("DELETE", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json);
+                }
+                console.log(xhr);
+            };
+            const data = {
+                'user_id': document.getElementById('user_id').value,
+            };
+            xhr.send(JSON.stringify(data));
+            FetchDataUser();
+        }
+
+        FetchDataUser();
+    </script>
+</head>
+
+<body>
+    <form class="p-3 mb-2 bg-dark text-white" style="text-align:center;">
+        <div class="container">
+            <div>
+                <h2>For Administrators (Data in User)</h2>
+                <input type="hidden" id="id" />
+                <b>user_id: </b> <br> <input type="text" id="user_id" /><br />
+                <b>user_username: </b> <br> <input type="text" id="user_username" /><br />
+                <b>user_fname: </b> <br> <input type="text" id="user_fname" /><br />
+                <b>user_lname: </b> <br> <input type="text" id="user_lname" /><br />
+                <b>user_bdate: </b> <br> <input type="text" id="user_bdate" /><br />
+                <b>user_tel:  </b> <br> <input type="text" id="user_tel" /><br />
+                <b>user_bio:  </b> <br> <input type="text" id="user_bio" /><br />
+                <br />
+                <button onclick="InsertData()">Insert Data</button>
+                <button onclick="UpdateData()">Update Data</button>
+                <button onclick="DeleteData()">Delete Data</button>
+                <input type="reset" value="Reset" style="background-color: red; color: white" />
+                <br />
+                <br />
+                <br />
+                <div id="details"></div>
+                <div id="message"></div>
+            </div>
+    </form>
+
+    <h3>Registered User Info</h3>
+    <!-- table for showing data -->
+    <table class="table-primary" id="showdatauser"></table>
+
+</body>
+
+</html>
