@@ -108,8 +108,6 @@
                         
                         count = value.song_count_join;
                         var user_id = name[1]
-                        console.log(user_id);
-                        console.log(count);
                         $.ajax({
                             type: 'PUT',
                             url: 'http://localhost:8888/Result/count',
@@ -120,23 +118,10 @@
                                 action: 'put'
                             },
                             success: function (json) {
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'http://localhost:8888/Result/check',
-                                    dataType: 'json',
-                                    data: {
-                                        id: id,
-                                        user_id: user_id,
-                                        action: 'post'
-                                    },
-                                    success: function (json) {
-                                        alert(json.length)
-                                    },
-                                    error: function (data) {
-                                        alert('data.responseJSON.error');
-                                    }
-                                });      
-                            },
+                                checklike(id,user_id);
+                                checklistened(id,user_id);
+                                checklistenlater(id,user_id);
+                            },    
                             error: function (data) {
                                 alert('data.responseJSON.error');
                             }
@@ -148,6 +133,66 @@
                 alert('data.responseJSON.error');
             }
         });
+    }
+    function checklike(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklike',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('like').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
+    }
+    function checklistened(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklistened',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('listened').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
+    }
+    function checklistenlater(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklistenlater',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('add').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
     }
     function listbrand(){
             var data = document.getElementById('brand_name').innerHTML;
@@ -298,6 +343,135 @@
     }
     document.getElementById("detail_section").innerHTML = output;
 }
+    function clicklistened(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('listened').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlistened',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('listened').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('listened').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelistened',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('listened').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('listened').style.color = '';   
+        }
+    }
+    function clicklike(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('like').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlike',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('like').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('like').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelike',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('like').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('like').style.color = '';   
+        }
+    }
+    function clickadd(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('add').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlistenlater',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('add').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('add').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelistenlater',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('add').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('add').style.color = '';   
+        }
+    }
 </script>
 <body>
 <header class ="header" id ="head">
@@ -347,9 +521,9 @@
             </div>
             <div class="column-right">
                 <div class="card">
-                    <li><a id = "listened" style="cursor:pointer">Listened</a></li><br>
-                    <li><a id = "like" style="cursor:pointer">Like</a></li><br>
-                    <li><a id = "add" style="cursor:pointer">Add to List</a></li>
+                    <li><a id = "listened" onClick = "clicklistened()"style="cursor:pointer">Listened</a></li><br>
+                    <li><a id = "like" onClick = "clicklike()" style="cursor:pointer">Like</a></li><br>
+                    <li><a id = "add" onClick = "clickadd()" style="cursor:pointer">Add to List</a></li>
                 </div>
                 <div class ="next-page">
                     <a class="button" role="button" onclick="nextpage()"><span class="text" id = "next" >Next Song</span></a>

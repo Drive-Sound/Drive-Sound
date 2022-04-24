@@ -54,41 +54,105 @@ router.put('/count',function(req,res){
     })
 
 })
-router.post('/check',function(req,res){
+
+router.post('/checklike',function(req,res){
     const id = req.body.id;
     const user_id = req.body.user_id;
-    
-    var sql = "SELECT * FROM user_like Where songid ="+id +"AND userid ="+user_id;
+    console.log(id + " " + user_id)
+    var sql = "SELECT * FROM user_like Where userid = "+user_id+" AND songid = "+id;
     db.query(sql,function(err,data, fields){
         if (err) throw res.send(`Error not found`)
             return res.send(data);
     })
-
 })
-
+router.post('/checklistened',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    console.log(id + " " + user_id)
+    var sql = "SELECT * FROM user_listened Where userid = "+user_id+" AND songid = "+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+})
+router.post('/checklistenlater',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    console.log(id + " " + user_id)
+    var sql = "SELECT * FROM user_listen_later Where userid = "+user_id+" AND songid = "+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+})
 
 router.post('/addlike',function(req,res){
     const id = req.body.id;
-    const count = req.body.count;
+    const user_id = req.body.user_id;
     
-    var sql = "UPDATE song_info SET song_count_join = '"+count+"'Where song_id ="+id;
+    var sql = "INSERT INTO user_like (userid, songid) VALUES ('"+user_id+"','"+id+"')";
     db.query(sql,function(err,data, fields){
-        if (err) throw res.send(`Error not found`)
+        if (err) 
             return res.send(data);
     })
 
 })
 router.post('/addlistened',function(req,res){
     const id = req.body.id;
-    const count = req.body.count;
+    const user_id = req.body.user_id;
     
-    var sql = "UPDATE song_info SET song_count_join = '"+count+"'Where song_id ="+id;
+    var sql = "INSERT INTO user_listened (userid, songid) VALUES ('"+user_id+"','"+id+"')";
+    db.query(sql,function(err,data, fields){
+        if (err) 
+            return res.send(data);
+    })
+
+})
+router.post('/addlistenlater',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    
+    var sql = "INSERT INTO user_listen_later (userid, songid) VALUES ('"+user_id+"','"+id+"')";
+    db.query(sql,function(err,data, fields){
+        if (err) 
+            return res.send(data);
+    })
+
+})
+router.delete('/deletelike',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    
+    var sql = "DELETE FROM user_like WHERE userid = '"+user_id+"' AND songid = '"+id+"'";
     db.query(sql,function(err,data, fields){
         if (err) throw res.send(`Error not found`)
             return res.send(data);
     })
 
 })
+router.delete('/deletelistened',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    
+    var sql = "DELETE FROM user_listened WHERE userid = '"+user_id+"' AND songid = '"+id+"'";
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+
+})
+router.delete('/deletelistenlater',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    
+    var sql = "DELETE FROM user_listen_later WHERE userid = '"+user_id+"' AND songid = '"+id+"'";
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+
+})
+
 module.exports = app;
 
 
