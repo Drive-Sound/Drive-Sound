@@ -85,12 +85,12 @@ body {
     text-decoration: none;
   }
    
-  .leftside-navbar a.active {
-    background-color: #181f2c;
+  
+  .leftside-navbar a:hover {
+    background-color: rgb(138, 138, 138);
     color: white;
   }
-  
-  .leftside-navbar a:hover:not(.active) {
+  .leftside-navbar a:active {
     background-color: rgb(138, 138, 138);
     color: white;
   }
@@ -106,6 +106,9 @@ body {
         margin-left: 20%
         
     }
+    p #info_user{
+        margin-top: 20%
+    }
 
   .head{
       font-size: 30px;
@@ -115,6 +118,7 @@ body {
   .column#detail{
       width: 500px;
   }
+  
 
 
 

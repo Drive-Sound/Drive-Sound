@@ -23,7 +23,7 @@
   "version": "1.0.0",
   "main": "jquery.twbsPagination.min.js",
   "scripts": {
-    "start": "nodemon login.js",
+    "start": "nodemon app.js",
     "post-man" : "nodemon admin.js"
   },
   "author": "Drive-sound",

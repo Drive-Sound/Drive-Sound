@@ -4,10 +4,13 @@ const mysql = require('mysql');
 const admin = express()
 var cors = require('cors')
 const dotenv = require('dotenv');
-dotenv.config();
-const port =  6001;
 
-admin.use(express.static('./public'))
+dotenv.config();
+const port = 6001;
+
+admin.use(express.static('/'))
+admin.use('public/css', express.static(__dirname + 'css'))
+admin.use('public/image', express.static(__dirname + 'images'))
 
 admin.use(bodyParser.urlencoded({ extended: false }))
 
@@ -40,7 +43,7 @@ var corsOptionsDelegate = function(req, callback) {
 // Testing SELECT all User
 // method: GET
 // URL: http://localhost:6001/
-admin.get(``, cors(corsOptionsDelegate), (req, res) => {
+admin.get(`/`, cors(corsOptionsDelegate), (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
 
@@ -137,7 +140,7 @@ admin.get(`/music/:song_id`, cors(corsOptionsDelegate), (req, res) => {
 //       "user_id" : "u0089",
 //       "user_username": "Jk",
 //       "user_fname" : "Jake",
-//       "user_lname" : "Songkarns"
+//       "user_lname" : "Songkarns",
 //       "user_bdate": "1998-03-12",
 //       "user_tel": "0812344332",
 //       "user_bio":"Music is my life"
@@ -146,7 +149,7 @@ admin.get(`/music/:song_id`, cors(corsOptionsDelegate), (req, res) => {
 //       "user_id" : "u0099",
 //       "user_username": "Sa",
 //       "user_fname" : "Susan",
-//       "user_lname" : "Linda"
+//       "user_lname" : "Linda",
 //       "user_bdate": "1990-07-01",
 //       "user_tel": "0984756777",
 //       "user_bio":"I am susan and I like music"
@@ -371,3 +374,5 @@ admin.put(`/updatemusic`, (req, res) => {
 })
 
 admin.listen(port, () => console.log(`Listen on POST ${port}`))
+
+module.exports = admin;

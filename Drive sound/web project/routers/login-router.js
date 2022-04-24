@@ -2,14 +2,15 @@ const express = require('express');
 const path = require('path');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const dbConnection = require('./database');
+const dbConnection = require('../database/js/database');
 const { body, validationResult } = require('express-validator');
-const searchRouter = require('./search_function');
 const { name } = require('ejs');
 const bp = require('body-parser');
 const port = 8888; 
 
-const app = express();
+
+const app = express.Router();
+
 
 
 app.use(express.static(path.join(__dirname, '/')));
@@ -21,8 +22,8 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
 
-app.set('../views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('../views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 // APPLY COOKIE SESSION MIDDLEWARE
 app.use(cookieSession({
@@ -55,9 +56,8 @@ app.get('/', ifNotLoggedin, (req, res, next) => {
                     name : rows[0].name
                 });
             } else {
-                res.sendFile(__dirname + '/views/StarterrPage.html')
+                res.render(__dirname + '/../views/login-register.ejs')
             }
-           
         });
 
 });// END OF ROOT PAGE
@@ -80,16 +80,17 @@ app.post('/register',
         body('user_pass', 'The password must be of minimum length 6 characters').trim().isLength({ min: 6 }),
     ],
     (req, res, next) => {
+        
         console.log(req.body);
         const validation_result = validationResult(req);
-        const { user_name, user_pass, user_email } = req.body;
+        const { user_name, user_pass, user_email,user_role } = req.body;
         // IF validation_result HAS NO ERROR
         if (true) {
             console.log("pass")
             // password encryption (using bcryptjs)
             bcrypt.hash(user_pass, 12).then((hash_pass) => {
                 // INSERTING USER INTO DATABASE
-                dbConnection.execute("INSERT INTO `users_login`(`name`,`email`,`password`) VALUES(?,?,?)", [user_name, user_email, hash_pass])
+                dbConnection.execute("INSERT INTO `users_login`(`name`,`email`,`password`,`role`) VALUES(?,?,?,?)", [user_name, user_email, hash_pass, user_role])
                     .then(result => {
                         res.send(`your account has been created successfully, Now you can <a href="/Login">Login</a>`);
                     }).catch(err => {
@@ -118,7 +119,7 @@ app.post('/register',
 
 // LOGIN PAGE
 
-app.post('/login', ifLoggedin, [
+app.post('/', ifLoggedin, [
     body('user_email').custom((value) => {
         return dbConnection.execute('SELECT email FROM users_login WHERE email=?', [value])
             .then(([rows]) => {
@@ -132,6 +133,7 @@ app.post('/login', ifLoggedin, [
     }),
     body('user_pass', 'Password is empty!').trim().not().isEmpty(),
 ], (req, res) => {
+    console.log("in");
     const validation_result = validationResult(req);
     const { user_pass, user_email } = req.body;
     if (validation_result.isEmpty()) {
@@ -142,11 +144,8 @@ app.post('/login', ifLoggedin, [
                         req.session.isLoggedIn = true;
                         req.session.userID = rows[0].id;
                         req.session.role = rows[0].role;
-                        if(req.session.role === 'a'){
-                            console.log("ss")
-                            alert("admin");
-                        }
-                        res.redirect('/Home');
+                        console.log(rows[0].id);
+                        res.redirect('/Home?'+rows[0].id +'?'+ rows[0].role)
                     }
                     else {
                         res.render('login-register', {
@@ -175,38 +174,12 @@ app.post('/login', ifLoggedin, [
 });
 
 // END OF LOGIN PAGE
-
-// LOGOUT
 app.get('/logout', (req, res) => {
     //session destroy
     req.session = null;
     res.redirect('/Starter');
 });
-// END OF LOGOUT
-// module.exports = app;
-app.get('/Starter',(req,res) => {
-    res.sendFile(__dirname + '/views/StarterrPage.html')
-})
-app.get('/Home',(req,res) => {
-    res.render(__dirname + '/views/home.ejs')
-})
-app.get('/Search',(req,res) => {
-    res.sendFile(__dirname + '/views/Search_Page.html')
-    app.use(searchRouter);
-})
-app.get('/Result',(req,res) => {
-    res.sendFile(__dirname + '/views/Result_Page.html')
-})
-app.get('/Account',(req,res) => {
-    res.sendFile(__dirname + '/views/Account.html')
-})
-app.get('/About_Us',(req,res) => {
-    res.sendFile(__dirname + '/views/About_Us_Page.html')
-})
 
-app.get('/Login',(req,res) => {
-    res.render(__dirname + '/views/login-register.ejs')
-})
+module.exports = app;
 
-app.listen(8888, () => console.log(`Server listen on port ${port}`));
 

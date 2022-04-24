@@ -62,10 +62,37 @@ body {
     text-decoration: none;
     color: inherit;
 }
-.container a:hover{
+
+.btn:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #next:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #add:hover{
     text-decoration: none;
     color:aquamarine;
 }
+.container #brand_name:hover{
+    text-decoration: none;
+    color:aquamarine;
+}
+.container #type:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #listened:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+.container #like:hover{
+  text-decoration: none;
+  color:aquamarine;
+}
+
+
 .container nav{
     height: 52px;
     background-color: #242b3a;
@@ -160,42 +187,6 @@ body {
   z-index: 1;
   position: relative;
 }
-
-/* .header1 {
-    width: 1000px;
-    padding: 20px;
-    background: #5d6475;
-    margin: 25px auto;
-    border-radius: 5px;
-    text-align: center;
+.active {
+  display: block;
 }
-
-.header1 p {
-    font-size: 15px;
-    font-weight: 200;
-    color: #fff;
-}
-
-#i {
-    font-size: 45px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #fff;
-    background: #2c3440;
-}
-
-body {
-    background: #2c3440;
-}
-
-body h1 {
-    background-color: #dceaff;
-}
-
-#im {
-    float: left;
-    padding: 14px 16px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-align: center;
-} */

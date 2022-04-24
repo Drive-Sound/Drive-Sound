@@ -94,7 +94,9 @@ body {
    touch-action: manipulation;
    margin-top: 0.5cm;
    margin-left: 46.7%;
+   pointer-events:none;
 }
+
   button:hover {
    background-color: #575c66;
    color: #fff;

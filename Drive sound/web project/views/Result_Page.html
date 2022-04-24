@@ -2,48 +2,480 @@
 <html>
 <head>
     <title>Result Page</title>
-    <link rel="stylesheet" href="css/styleforresult.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="css/styleforresult.css"> 
     
 </head>
 <script>
+    var lylic,chord,detail,album,id,count;
     document.addEventListener("DOMContentLoaded", function () {
         getData();
       });
-      function getData(){
+    function getData(){
         let url = window.location.href
-        console.log(url)
         let data=url.split("/")[3];
-        let sname=data.split("?")[1];
-        let sbrand=data.split("?")[2];
-        let ssolo=data.split("?")[3];
-        let stype=data.split("?")[4];
-        let spdate=data.split("?")[5];
-        sname_a = sname.replace('%20',' ')
-        sbrand_a = sbrand.replace('%20',' ')
-
-        console.log(sname+sbrand)
-
-        document.getElementById("name").innerHTML = sname_a;
-        if(sbrand_a == 'null'){
-            document.getElementById("brand").innerHTML = 'Solo Musician :'
-            document.getElementById("brand_name").innerHTML = ssolo;
-        }else{
-            document.getElementById("brand_name").innerHTML = sbrand_a;
+        let name = data.split("?");
+        var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
+                        <nav class ="nav">
+                            <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
+                            <a href="/About_Us?`+name[1]+`?`+name[2]+`">About Us</a>
+                            <a href="/Account?`+name[1]+`?`+name[2]+`">Account</a>`
+            if (name[2] == 'a') {
+                output += `   <a href="/Admin?`+name[1]+`?`+name[2]+`">User Edit</a>
+                                <a href="/Adminmusic?`+name[1]+`?`+name[2]+`">Music Edit</a>`
+            }
+              
+        output += `<a href="/Login/logout">Logout</a></nav>`  
+        document.getElementById('head').innerHTML = output;
+        let sname=data.split("?")[3];
+        let sbrand=data.split("?")[4];
+        let ssolo=data.split("?")[5];
+        let data_name = sname.split('%20')
+        let sname_a = data_name[0];
+        for(var i = 1 ; i< data_name.length ; i++){
+            sname_a +=" "+data_name[i];
         }
-        document.getElementById("type").innerHTML = stype;
-        document.getElementById('pdate').innerHTML = spdate;
-      }
+        let data_brand = sbrand.split('%20')
+        let sbrand_a = data_brand[0];
+        for(var i = 1 ; i< data_brand.length ; i++){
+            sbrand_a +=" "+data_brand[i];
+        }
+        let data_solo = ssolo.split('%20')
+        let ssolo_a = data_solo[0];
+        for(var i = 1 ; i< data_solo.length ; i++){
+            ssolo_a +=" "+data_solo[i];
+        }
+        
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result',
+            dataType: 'json',
+            data: {
+                sname_a: sname_a,
+                sbrand_a: sbrand_a,
+                ssolo_a: ssolo_a,
+                action: 'post'
+            },
+            success: function (json) {
+                    
+                    $.each(json, function( index, value ) {
+                        
+                        document.getElementById("name").innerHTML = sname_a;
+                        
+                        if(sbrand_a != '-'){
+                            
+                            document.getElementById("brand_name").innerHTML = value.song_brand;
+                            
+                        }else{
+                            document.getElementById("brand").innerText = 'Solo Musician :'
+                            document.getElementById("brand_name").innerHTML = value.song_solo_musician;
+                        }
+                        document.getElementById("type").innerHTML = value.song_type_song;
+                        let pdate = value.song_produced_date.split("T")[0];
+                        document.getElementById('pdate').innerHTML = pdate;
+                        
+                        if(value.song_photo != null){
+                            document.getElementById('cover').src = value.song_photo;
+                        }else{
+                            document.getElementById('cover').src = "https://raw.githubusercontent.com/Drive-Sound/Drive-Sound/project_p3/Drive%20sound/web%20project/public/images/cover%20song/cover.jpg";
+                        }
+                        if(value.song_detail != null){
+                            detail = value.song_detail;
+                        }else{
+                            detail= "null";
+                        }
+                        document.getElementById('detail').innerHTML = detail;
+                        if(value.song_chord != null){
+                            chord = value.song_chord;
+                        }else{
+                            chord= "null";
+                        }
+                        if(value.song_lyric != null){
+                            lylic = value.song_lyric;
+                        }else{
+                            lylic = "null";
+                        }
+                        if(value.song_album != null){
+                            album = value.song_album;
+                        }else{
+                            album = "null";
+                        }
+                        
+                        id = value.song_id;
+                        
+                        count = value.song_count_join;
+                        var user_id = name[1]
+                        $.ajax({
+                            type: 'PUT',
+                            url: 'http://localhost:8888/Result/count',
+                            dataType: 'json',
+                            data: {
+                                id: id,
+                                count: count+1,
+                                action: 'put'
+                            },
+                            success: function (json) {
+                                checklike(id,user_id);
+                                checklistened(id,user_id);
+                                checklistenlater(id,user_id);
+                            },    
+                            error: function (data) {
+                                alert('data.responseJSON.error');
+                            }
+                        });      
+                }) 
+                
+            },
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });
+    }
+    function checklike(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklike',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('like').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
+    }
+    function checklistened(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklistened',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('listened').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
+    }
+    function checklistenlater(id,user_id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Result/checklistenlater',
+            dataType: 'json',
+            data: {
+                id: id,
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 1){
+                    document.getElementById('add').style.color = 'aquamarine';
+                }
+            },    
+            error: function (data) {
+                alert('data.responseJSON.error');
+            }
+        });      
+    }
+    function listbrand(){
+            var data = document.getElementById('brand_name').innerHTML;
+            let url = window.location.href
+            let data_url=url.split("/");
+            let url_user=data_url[3].split("?");
+            if(document.getElementById('brand').innerHTML == 'Solo Musician :'){
+                location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Artist='+data;
+            }else{
+                location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Brand='+data;
+            }
+        }
+    function listtype(){
+            var data = document.getElementById('type').innerHTML;
+            let url = window.location.href
+            let data_url=url.split("/");
+            let url_user=data_url[3].split("?");
+            if(data == "R&amp;B"){
+                data = 'R&B'
+            }
+            location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Type='+data;
+        }
+    function nextpage(){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/next',
+                dataType: 'json',
+                data: {
+                    id: id+1,
+                    action: 'post'
+                },
+                success: function (json) {
+                    if(json.length == 0){
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8888/Result/next',
+                            dataType: 'json',
+                            data: {
+                                id: 1,
+                                action: 'post'
+                            },
+                            success: function (json) {
+                                $.each(json, function( index, value ) {
+                        
+                                    var name = value.song_name;
+                                    var brand = value.song_brand;
+                                    if(brand == null){
+                                        brand = "-";
+                                    }
+                                    var solo = value.song_solo_musician;
+                                    if(solo == null){
+                                        solo = "-";
+                                    }
+                                    let url = window.location.href
+                                    let data=url.split("/");
+                                    let url_user=data[3].split("?");
+                                    document.location.href = '/Result?'+url_user[1]+"?"+url_user[2]+"?"+name+"?"+brand+"?"+solo;
+                    
+                                })
+                        }})
+                    }
+                    $.each(json, function( index, value ) {
+                        
+                        var name = value.song_name;
+                        var brand = value.song_brand;
+                        if(brand == null){
+                            brand = "-";
+                        }
+                        var solo = value.song_solo_musician;
+                        if(solo == null){
+                            solo = "-";
+                        }
+                
+                        let url = window.location.href
+                        let data=url.split("/");
+                        let url_user=data[3].split("?");
+                        document.location.href = '/Result?'+url_user[1]+"?"+url_user[2]+"?"+name+"?"+brand+"?"+solo;
+                    })
+                }
+        })
+        }
+    function openchord(){
+            let output = `<h2>Chord</h2>`;
+            if(chord != "null"){
+                output += `
+                            <p>
+                                <br><img id = "chord" src = "`+chord+`" width="100%" style = "width: 465px;" height="auto">
+                                <br><hr>        
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
+
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function opendetail(){
+            let output = `<h2>Detail</h2>`;
+            if(detail != "null"){
+                output += `
+                            <p>
+                                <br><a id = "detail" >`+detail+`</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function openlylic(){
+            let output = `<h2>Lyric</h2>`;
+            if(lylic != "null"){
+                output += `
+                            <p>
+                                <br><img id = "lyric" src = "`+lylic+`" width="100%" style = "width: 465px;" height="auto">
+                                <br><hr>
+                            </p>`
+            }else{
+                output += `
+                            <p>
+                                <br><a>No Data Yet !!!</a>
+                                <br><br><br><br><br><hr>
+                            </p>`
+            }
+            document.getElementById("detail_section").innerHTML = output;
+        }
+    function openalbum(){
+    let output = `<h2>Album</h2>`;
+    if(album != "null"){
+        output += `
+                    <p>
+                        <br><a id = "album" >`+album+`</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }else{
+        output += `
+                    <p>
+                        <br><a>No Data Yet !!!</a>
+                        <br><br><br><br><br><hr>
+                    </p>`
+    }
+    document.getElementById("detail_section").innerHTML = output;
+}
+    function clicklistened(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('listened').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlistened',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('listened').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('listened').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelistened',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('listened').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('listened').style.color = '';   
+        }
+    }
+    function clicklike(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('like').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlike',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('like').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('like').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelike',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('like').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('like').style.color = '';   
+        }
+    }
+    function clickadd(){
+        let url = window.location.href
+        let data=url.split("/")[3];
+        let name = data.split("?");
+        var user_id = name[1];
+        if(document.getElementById('add').style.color == ''){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8888/Result/addlistenlater',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'post'
+                },
+                success: function (json) {
+                    document.getElementById('add').style.color = 'aquamarine';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });  
+                document.getElementById('add').style.color = 'aquamarine';    
+        }else{
+            $.ajax({
+                type: 'DELETE',
+                url: 'http://localhost:8888/Result/deletelistenlater',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    user_id: user_id,
+                    action: 'delete'
+                },
+                success: function (json) {
+                    document.getElementById('add').style.color = '';
+                },
+                error: function (data) {
+                    alert('data.responseJSON.error');
+                }
+                    });   
+                document.getElementById('add').style.color = '';   
+        }
+    }
 </script>
 <body>
-    <header class ="header">
-        <a href="/Home"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
-    <nav class ="nav">
-        <a href="/Search">Search</a>
-        <a href="/About_Us">About Us</a>
-        <a href="/Account">Account</a>
-        <a href="/logout">Logout</a>
-    </nav>
+<header class ="header" id ="head">
+    
     </header>
     <div class ="container">
         <div class="row">
@@ -51,7 +483,7 @@
                 <div class="card">
                     <div class ="img-cover">
                         <br>
-                        <img src="images/cover.jpg" width="100%" height="auto">
+                        <img id = "cover" src = "" width="100%" style = "width: 180px;" height="auto">
                     </div>
                 </div>
             </div>
@@ -59,86 +491,49 @@
                 <div class="card">
                     <h1 id ="name"></h1>
                     <hr>
-                    <p>Produced on <a id ="pdate">xx xxx xxxx</a></p>
+                    <p>Produced on <a id ="pdate"></a></p>
                     <p>Rating : &#11088;&#11088;&#11088;&#11088; (140) </p>
-                    <p id ="brand">Brand : <a id = "brand_name" >Maroon Five</a></p>
-                    <p>Type : <a id ="type" ></a></p>
+                    <div id =" element">
+                        <p id="brand" style="display: inline;">Brand :</p>
+                        <a class = "search" id = "brand_name" style="display: inline; cursor:pointer" onclick="listbrand()" ></a> 
+                    </div>
+                    <p>Type : <a class ="search" onclick="listtype()" id ="type" style="cursor:pointer"></a></p>
                     <hr>
-                    <div class = "col-mid-upper-nav">
+                    <div class = "col-mid-upper-nav" >
                         <nav>
                             <br>
-                            <a  >Detail</a>
-                            <a >Chord</a>
-                            <a >Lyric</a>
-                            <a >Album</a>
+                            <a class="btn" style="cursor:pointer" onclick="opendetail()" >Detail</a>
+                            <a class="btn" style="cursor:pointer" onclick="openchord()">Chord</a>
+                            <a class="btn" style="cursor:pointer" onclick="openlylic()">Lyric</a>
+                            <a class="btn" style="cursor:pointer" onclick="openalbum()">Album</a>
                         </nav>
                      </div>
-                     <div class ="detail">
-                         <h2>Detail</h2>
-                        <p>
-                            <br>Description of Sugar..............................................................
-                            <br><br><br><br><br><hr>
-                        </p>
-                     </div>
-                     <div class ="chord"></div>
-                     <div class ="lyric"></div>
-                     <div class ="album"></div>
+                     <div class = "container_bot">
+                        <div id ="detail_section">
+                            <h2>Detail</h2>
+                            <p>
+                                <br><a id = "detail" ></a>
+                                <br><br><br><br><br><hr>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="column-right">
                 <div class="card">
-                    <li><a  >Listened</a></li><br>
-                    <li><a >Like</a></li><br>
-                    <li><a >Add to List</a></li>
+                    <li><a id = "listened" onClick = "clicklistened()"style="cursor:pointer">Listened</a></li><br>
+                    <li><a id = "like" onClick = "clicklike()" style="cursor:pointer">Like</a></li><br>
+                    <li><a id = "add" onClick = "clickadd()" style="cursor:pointer">Add to List</a></li>
                 </div>
                 <div class ="next-page">
-                    <a class="button" role="button" ><span class="text">Next Song</span></a>
+                    <a class="button" role="button" onclick="nextpage()"><span class="text" id = "next" >Next Song</span></a>
                 </div>
             </div>
         </div>
     </div>
-    <footer class ="footer">
-        <f>@drive sound</f>
-    </footer>
+    
 
-
-
-
-    <!-- <div class="header1">
-        <p id="i">Result</p>
-        <br>
-        <br>
-    <h1 style="text-align:center">SUGAR</h1>
-    <br>
-
-    <audio controls autoplay>
-        <source src="maroon-5-sugar.mp3" type="audio/mpeg">
-      </audio>
-    <br>
-    <br>
-
-    <div class="row">
-        <div class="column">
-            <div class="card">
-                <img src="sugar.jpg" style="width:60%" style="height: 50%">
-                <div class="container">
-                    <br>
-
-                    <h2 class="title" style="background-color:powderblue;">Maroon 5</h2> <br>
-                    <p style="text-align:left"> Maroon 5 is an American pop rock band from Los Angeles, California. It currently consists of lead vocalist Adam Levine, keyboardist and rhythm guitarist Jesse Carmichael, lead guitarist James Valentine, drummer Matt Flynn, keyboardist
-                        PJ Morton and multi-instrumentalist and bassist Sam Farrar. Original members Levine, Carmichael, bassist Mickey Madden, and drummer Ryan Dusick first came together as Kara's Flowers in 1994, while they were still in high school.</p>
-                    <p></p><br>
-                    <img src="Sugar2.png" style="width:60%" style="height: 50%"><br>
-                    <br>
-                    <h2 class="title" style="background-color:powderblue;">Sugar</h2>
-                    <p style="text-align:left">
-                        <br>"Sugar" is a song recorded by American band Maroon 5 for their fifth studio album V (2014). It was written by Mike Posner, Adam Levine, Dr. Luke, and Jacob Kasher Hindlin together with its producers Ammo and Cirkut. It was
-                        sent to contemporary hit radio in the United States, as the third single from the album on January 13, 2015. "Sugar" is a disco, funk-pop, and soul song that features a wide range of instruments including percussion, keyboards
-                        and guitars.
-                    </p>
-                </div>
-            </div>
-        </div> -->
 </body>
-<script src = "../result_page.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
 </html>
