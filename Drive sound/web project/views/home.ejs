@@ -13,6 +13,7 @@
             getData();
             setnewlist();
             setpoplist();
+            TextData();
           });
         function getData(){
             let url = window.location.href
@@ -154,15 +155,25 @@
             location.href = '/List?'+name[1]+'?'+name[2]+'?Type='+type;
             
         })
-       </script>
+        function TextData() {
+            let url = window.location.href
+            let data = url.split("/");
+            let name = data[3].split("?");
+            
+            if (name[2] == 'a') {
+                var output = `<p class="title" >Welcome back Admin</p> `
+            }else{
+                var output = `<p class="title" >Welcome back User</p>`
+            }
+            document.getElementById('title').innerHTML = output;
+        }
+        </script>
         <body>
 
             <header class ="header" id = "head">
             </header>
             
-                <div class ="bg-image">
-                    <p class="title">Welcome back user</p>
-                </div>
+                <div class ="bg-image" id = "title" ></div>
                 
                 <div class ="container">
 

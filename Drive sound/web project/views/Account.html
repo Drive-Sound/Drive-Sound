@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Account Page</title>
     <link rel="stylesheet" href="css/styleforaccout.css">
-
+    
 </head>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -28,9 +28,254 @@
           
           output += `<a href="/Login/logout">Logout</a></nav>`  
           document.getElementById('head').innerHTML = output;
+          getInfo(name[1]);
         }
+    function getInfo(id){
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Account',
+            dataType: 'json',
+            data: {
+                id: id,
+                action: 'post'
+            },
+            success: function (json) {
+                $.each(json, function( index, value ) {
+                    console.log(json)
+                    document.getElementById('name').innerHTML = value.name;
+                })
+            },
+            error: function (data) {
+            alert('data.responseJSON.error');
+        }
+        });
+    }
+    function openprofile(){
+        var output = `<p class="head">Profile</p>
+        <p id = "info_user" style ="display: inline;">First name : <p id = "fname" style ="display: inline; margin-left : 0%"> Not data yet</p></p>
+        <br>
+        <p id = "info_user" style ="display: inline;">Last name  : <p id = "lname" style ="display: inline; margin-left : 0%;" >Not data yet</p></p>
+        <br>
+        <p id = "info_user" style ="display: inline;">Age : <p id = "age" style ="display: inline; margin-left : 0%">Not data yet</p></p>
+        <br>
+        <p id = "info_user" style ="display: inline;">Birth date : <p id = "bdate" style ="display: inline; margin-left : 0%">Not data yet</p></p>`
+        document.getElementById('detail').innerHTML = output;
+    }
+    function openlike(){
+        let url = window.location.href
+        let data=url.split("/");
+        let name=data[3].split("?");
+        var user_id = name[1];
+        let output = `<p class="head">Like song</p>`;
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Account/like',
+            dataType: 'json',
+            data: {
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 0){
+                    output += `<p>No song that you like</p>`;
+                    document.getElementById('detail').innerHTML = output
+                }else{
+                    $.each(json, function( index, value ) { 
+                        var song_id = value.songid;
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8888/Account/search',
+                            dataType: 'json',
+                            data: {
+                                song_id: song_id,
+                                action: 'post'
+                            },
+                            success: function (json) {
+                                $.each(json, function( index, value ) {
+                                    var name = value.song_name;
+                                    var brand,img;
+                                    if(value.song_brand == null){
+                                        brand = value.song_solo_musician
+                                    }
+                                    if(value.song_solo_musician == null){
+                                        brand = value.song_brand;
+                                    }
+                                    if(value.song_photo == null){
+                                        img = "./public/images/cover song/cover.jpg";
+                                    }else{
+                                        img = value.song_photo;
+                                    }
+                                    output += `<div class ="row" style = "margin-left : 15%" >
+                                                <div class ="column  style = "margin-left : 5%"">
+                                                    <div class ="each_song">
+                                                        <img src = "`+img+`" style = "width : 100px; margin-left : 30%;">
+                                                    </div>
+                                                </div>
+                                                <div class ="column" style = "margin-left : 13%"">
+                                                    <h3 style = "display : "inline";">`+name+`</h3><p style ="margin-left: 0%">`+brand+`</p>
+                                                </div></div><br>`
+                                    document.getElementById('detail').innerHTML = output;
+                                })
+                            },
+                            error: function (data) {
+                                alert('data.responseJSON.error');
+                        }
+                        
+                    })
+                })
+            }     
+            },
+            error: function (data) {
+                    alert('data.responseJSON.error');
+            }
+    });
+    
+    
+    }
+    function openlistened(){
+        let url = window.location.href
+        let data=url.split("/");
+        let name=data[3].split("?");
+        var user_id = name[1];
+        let output = `<p class="head">Your listened song</p>`;
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Account/listened',
+            dataType: 'json',
+            data: {
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 0){
+                    output += `<p>No song that you listen before</p>`;
+                    document.getElementById('detail').innerHTML = output
+                }else{
+                    $.each(json, function( index, value ) { 
+                        var song_id = value.songid;
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8888/Account/search',
+                            dataType: 'json',
+                            data: {
+                                song_id: song_id,
+                                action: 'post'
+                            },
+                            success: function (json) {
+                                $.each(json, function( index, value ) {
+                                    var name = value.song_name;
+                                    var brand,img;
+                                    if(value.song_brand == null){
+                                        brand = value.song_solo_musician
+                                    }
+                                    if(value.song_solo_musician == null){
+                                        brand = value.song_brand;
+                                    }
+                                    if(value.song_photo == null){
+                                        img = "./public/images/cover song/cover.jpg";
+                                    }else{
+                                        img = value.song_photo;
+                                    }
+                                    output += `<div class ="row" style = "margin-left : 15%" >
+                                                <div class ="column  style = "margin-left : 5%"">
+                                                    <div class ="each_song">
+                                                        <img src = "`+img+`" style = "width : 100px; margin-left : 30%;">
+                                                    </div>
+                                                </div>
+                                                <div class ="column" style = "margin-left : 13%"">
+                                                    <h3 style = "display : "inline";">`+name+`</h3><p style ="margin-left: 0%">`+brand+`</p>
+                                                </div></div><br>`
+                                    document.getElementById('detail').innerHTML = output;
+                                })
+                            },
+                            error: function (data) {
+                                alert('data.responseJSON.error');
+                        }
+                        
+                    })
+                })
+            }     
+            },
+            error: function (data) {
+                    alert('data.responseJSON.error');
+            }
+    });
+    
+    
+    }
+    function openlistenlater(){
+        let url = window.location.href
+        let data=url.split("/");
+        let name=data[3].split("?");
+        var user_id = name[1];
+        let output = `<p class="head">Listen later song</p>`;
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8888/Account/listenlater',
+            dataType: 'json',
+            data: {
+                user_id: user_id,
+                action: 'post'
+            },
+            success: function (json) {
+                if(json.length == 0){
+                    output += `<p>No song that you want to listen later</p>`;
+                    document.getElementById('detail').innerHTML = output
+                }else{
+                    $.each(json, function( index, value ) { 
+                        var song_id = value.songid;
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://localhost:8888/Account/search',
+                            dataType: 'json',
+                            data: {
+                                song_id: song_id,
+                                action: 'post'
+                            },
+                            success: function (json) {
+                                $.each(json, function( index, value ) {
+                                    var name = value.song_name;
+                                    var brand,img;
+                                    if(value.song_brand == null){
+                                        brand = value.song_solo_musician
+                                    }
+                                    if(value.song_solo_musician == null){
+                                        brand = value.song_brand;
+                                    }
+                                    if(value.song_photo == null){
+                                        img = "./public/images/cover song/cover.jpg";
+                                    }else{
+                                        img = value.song_photo;
+                                    }
+                                    output += `<div class ="row" style = "margin-left : 15%" >
+                                                <div class ="column  style = "margin-left : 5%"">
+                                                    <div class ="each_song">
+                                                        <img src = "`+img+`" style = "width : 100px; margin-left : 30%;">
+                                                    </div>
+                                                </div>
+                                                <div class ="column" style = "margin-left : 13%"">
+                                                    <h3 style = "display : "inline";">`+name+`</h3><p style ="margin-left: 0%">`+brand+`</p>
+                                                </div></div><br>`
+                                    document.getElementById('detail').innerHTML = output;
+                                })
+                            },
+                            error: function (data) {
+                                alert('data.responseJSON.error');
+                        }
+                        
+                    })
+                })
+            }     
+            },
+            error: function (data) {
+                    alert('data.responseJSON.error');
+            }
+    });
+    
+    
+    }
 </script>
-<body>
+<body style = "background-color: 2c3440;">
     <header class ="header" id = "head">
     </header>
     <div class = "container">
@@ -48,25 +293,28 @@
         <div class = "container" id = "bottom">
             <div class ="row">
                 <div class ="column" id ="leftside">
-                    <nav class ="leftside-navbar">
-                        <a class="active" href="#profile">Profile</a>
-                        <a href="#like">Like</a>
-                        <a href="#listened">Listened</a>
-                        <a href="#listen-later">Listen Later</a>
+                    <nav class ="leftside-navbar" >
+                        <a class="btn" style="cursor:pointer" onclick="openprofile()">Profile</a>
+                        <a class="btn" style="cursor:pointer" onclick="openlike()">Like</a>
+                        <a class="btn" style="cursor:pointer" onclick="openlistened()">Listened</a>
+                        <a class="btn" style="cursor:pointer" onclick="openlistenlater()">Listen Later</a>
                     </nav>
                 </div>
                 <div class ="column" id = "detail">
-                    <p class="head">Profile</p>
-                    <p>First name : xxxxxxxx</p>
-                    <p>Last name : xxxxxxxxx</p>
-                    <p>Age : xx</p>
-                    <p>Birth date : xx xx xxxx</p>
+                    <table id = "results" class="table table-hover table-dark" >
+                        <p class="head">Profile</p>
+                        <p id = "info_user" style ="display: inline;">First name : <p id = "fname" style ="display: inline; margin-left : 0%"> Not data yet</p></p>
+                        <br>
+                        <p id = "info_user" style ="display: inline;">Last name  : <p id = "lname" style ="display: inline; margin-left : 0%;" >Not data yet</p></p>
+                        <br>
+                        <p id = "info_user" style ="display: inline;">Age : <p id = "age" style ="display: inline; margin-left : 0%">Not data yet</p></p>
+                        <br>
+                        <p id = "info_user" style ="display: inline;">Birth date : <p id = "bdate" style ="display: inline; margin-left : 0%">Not data yet</p></p>
+                    </table>
                 </div>
             </div>
         </div>
-    <footer class ="footer">
-        <f>@drive sound</f>
-    </footer>
+    
 </body>
 
 </html>

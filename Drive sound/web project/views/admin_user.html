@@ -3,10 +3,8 @@
 
 <head>
     <title>Admin_User Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styleforadmin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             getData();
@@ -61,12 +59,13 @@
 
                 // Loop to access all rows 
                 for (let r of data) {
+                    var x = r.user_bdate.split('T');
                     tab += `<tr class="table table-sm"> 
                 <td >${r.user_id} </td>
                 <td>${r.user_username}</td>
                 <td >${r.user_fname}</td> 
                 <td>${r.user_lname}</td>   
-                <td >${r.user_bdate}</td>   
+                <td >${x[0]}</td> 
                 <td>${r.user_tel}</td>   
                 <td >${r.user_bio}</td>          
             </tr>`;
@@ -154,6 +153,7 @@
     </script>
 </head>
 
+
 <body>
     <header class ="header" id = "head">
     </header>
@@ -188,7 +188,7 @@
         <table class="table-primary" id="showdatauser"></table>
     </div>
     </form>
-    <footer class ="footer">
+    <footer class ="footer" style = "margin-top: 0%;">
         <f>@drive sound</f>
     </footer>
 </body>
