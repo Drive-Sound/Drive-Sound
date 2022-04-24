@@ -3,23 +3,36 @@
 <head>
     <title>Result Page</title>
     <meta charset="UTF-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="css/styleforresult.css"> 
     
 </head>
 <script>
-    var lylic,chord,detail,album,id;
+    var lylic,chord,detail,album,id,count;
     document.addEventListener("DOMContentLoaded", function () {
         getData();
       });
     function getData(){
         let url = window.location.href
         let data=url.split("/")[3];
-        let sname=data.split("?")[1];
-        let sbrand=data.split("?")[2];
-        let ssolo=data.split("?")[3];
+        let name = data.split("?");
+        var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
+                        <nav class ="nav">
+                            <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
+                            <a href="/About_Us?`+name[1]+`?`+name[2]+`">About Us</a>
+                            <a href="/Account?`+name[1]+`?`+name[2]+`">Account</a>`
+            if (name[2] == 'a') {
+                output += `   <a href="/Admin?`+name[1]+`?`+name[2]+`">User Edit</a>
+                                <a href="/Adminmusic?`+name[1]+`?`+name[2]+`">Music Edit</a>`
+            }
+              
+        output += `<a href="/Login/logout">Logout</a></nav>`  
+        document.getElementById('head').innerHTML = output;
+        let sname=data.split("?")[3];
+        let sbrand=data.split("?")[4];
+        let ssolo=data.split("?")[5];
         let data_name = sname.split('%20')
         let sname_a = data_name[0];
         for(var i = 1 ; i< data_name.length ; i++){
@@ -93,7 +106,41 @@
                         
                         id = value.song_id;
                         
-                        
+                        count = value.song_count_join;
+                        var user_id = name[1]
+                        console.log(user_id);
+                        console.log(count);
+                        $.ajax({
+                            type: 'PUT',
+                            url: 'http://localhost:8888/Result/count',
+                            dataType: 'json',
+                            data: {
+                                id: id,
+                                count: count+1,
+                                action: 'put'
+                            },
+                            success: function (json) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'http://localhost:8888/Result/check',
+                                    dataType: 'json',
+                                    data: {
+                                        id: id,
+                                        user_id: user_id,
+                                        action: 'post'
+                                    },
+                                    success: function (json) {
+                                        alert(json.length)
+                                    },
+                                    error: function (data) {
+                                        alert('data.responseJSON.error');
+                                    }
+                                });      
+                            },
+                            error: function (data) {
+                                alert('data.responseJSON.error');
+                            }
+                        });      
                 }) 
                 
             },
@@ -104,18 +151,24 @@
     }
     function listbrand(){
             var data = document.getElementById('brand_name').innerHTML;
+            let url = window.location.href
+            let data_url=url.split("/");
+            let url_user=data_url[3].split("?");
             if(document.getElementById('brand').innerHTML == 'Solo Musician :'){
-                location.href = '/List?Artist='+data;
+                location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Artist='+data;
             }else{
-                location.href = '/List?Brand='+data;
+                location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Brand='+data;
             }
         }
     function listtype(){
             var data = document.getElementById('type').innerHTML;
+            let url = window.location.href
+            let data_url=url.split("/");
+            let url_user=data_url[3].split("?");
             if(data == "R&amp;B"){
                 data = 'R&B'
             }
-            location.href = '/List?Type='+data;
+            location.href = '/List?'+url_user[1]+'?'+url_user[2]+'?Type='+data;
         }
     function nextpage(){
             $.ajax({
@@ -148,8 +201,11 @@
                                     if(solo == null){
                                         solo = "-";
                                     }
-                            
-                                    document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+                                    let url = window.location.href
+                                    let data=url.split("/");
+                                    let url_user=data[3].split("?");
+                                    document.location.href = '/Result?'+url_user[1]+"?"+url_user[2]+"?"+name+"?"+brand+"?"+solo;
+                    
                                 })
                         }})
                     }
@@ -165,7 +221,10 @@
                             solo = "-";
                         }
                 
-                        document.location.href = '/Result?'+name+"?"+brand+"?"+solo;
+                        let url = window.location.href
+                        let data=url.split("/");
+                        let url_user=data[3].split("?");
+                        document.location.href = '/Result?'+url_user[1]+"?"+url_user[2]+"?"+name+"?"+brand+"?"+solo;
                     })
                 }
         })
@@ -241,14 +300,8 @@
 }
 </script>
 <body>
-    <header class ="header">
-        <a href="/Home"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
-    <nav class ="nav">
-        <a href="/Search">Search</a>
-        <a href="/About_Us">About Us</a>
-        <a href="/Account">Account</a>
-        <a href="/Login/logout">Logout</a>
-    </nav>
+<header class ="header" id ="head">
+    
     </header>
     <div class ="container">
         <div class="row">

@@ -2,20 +2,35 @@
 <html>
 <head>
     <title>About Us Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name ="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styleaboutus.css">
 </head>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        getData();
+    });
+    function getData(){
+        let url = window.location.href
+        let data=url.split("/");
+        let name=data[3].split("?");
+        var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
+                    <nav class ="nav">
+                        <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
+                        <a href="/About_Us?`+name[1]+`?`+name[2]+`">About Us</a>
+                        <a href="/Account?`+name[1]+`?`+name[2]+`">Account</a>`
+          if (name[2] == 'a') {
+              output += `   <a href="/Admin?`+name[1]+`?`+name[2]+`">User Edit</a>
+                            <a href="/Adminmusic?`+name[1]+`?`+name[2]+`">Music Edit</a>`
+          }
+          
+          output += `<a href="/Login/logout">Logout</a></nav>`  
+          document.getElementById('head').innerHTML = output;
+        }
+</script>
 <body>
-    <header class ="header">
-        <a href="/Home"><img src="images/Logo_DriveSound-01.png" width="100px"></a>
-    <nav class ="nav">
-        <a href="/Search">Search</a>
-        <a href="/About_Us">About Us</a>
-        <a href="/Account">Account</a>
-        <a href="/Login/logout">Logout</a>
-    </nav>
-</header>
+    <header class ="header" id = "head">
+    </header>
 <section>
 <div class ="title">
     <h1>About us</h1>

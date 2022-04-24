@@ -43,11 +43,52 @@ router.post('/next',function(req,res){
     })
 
 })
+router.put('/count',function(req,res){
+    const id = req.body.id;
+    const count = req.body.count;
+    
+    var sql = "UPDATE song_info SET song_count_join = '"+count+"'Where song_id ="+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+
+})
+router.post('/check',function(req,res){
+    const id = req.body.id;
+    const user_id = req.body.user_id;
+    
+    var sql = "SELECT * FROM user_like Where songid ="+id +"AND userid ="+user_id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
+
+})
 
 
+router.post('/addlike',function(req,res){
+    const id = req.body.id;
+    const count = req.body.count;
+    
+    var sql = "UPDATE song_info SET song_count_join = '"+count+"'Where song_id ="+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
 
+})
+router.post('/addlistened',function(req,res){
+    const id = req.body.id;
+    const count = req.body.count;
+    
+    var sql = "UPDATE song_info SET song_count_join = '"+count+"'Where song_id ="+id;
+    db.query(sql,function(err,data, fields){
+        if (err) throw res.send(`Error not found`)
+            return res.send(data);
+    })
 
-
+})
 module.exports = app;
 
 

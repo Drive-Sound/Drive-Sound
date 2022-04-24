@@ -3,7 +3,7 @@
 <head>
   <title>List Music</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <%- include('./partial/style'); %>
 </head>
 <script>
@@ -12,8 +12,21 @@
       });
     function getData(){
         let url = window.location.href
-        let data=url.split("?")[1];
-        //console.log(data)
+        let data_url=url.split("/");
+        let name=data_url[3].split("?");
+        var output = `<a href="/Home?`+name[1]+`?`+name[2]+`"><img src="images/Logo_DriveSound-01.png" width="100px%"></a>
+                        <nav class ="nav">
+                            <a href="/Search?`+name[1]+`?`+name[2]+`">Search</a>
+                            <a href="/About_Us?`+name[1]+`?`+name[2]+`">About Us</a>
+                            <a href="/Account?`+name[1]+`?`+name[2]+`">Account</a>`
+              if (name[2] == 'a') {
+                  output += `   <a href="/Admin?`+name[1]+`?`+name[2]+`">User Edit</a>
+                                <a href="/Adminmusic?`+name[1]+`?`+name[2]+`">Music Edit</a>`
+              }
+              
+        output += `<a href="/Login/logout">Logout</a></nav>`  
+        document.getElementById('head').innerHTML = output;
+        let data=url.split("?")[3];
         output_set = data.split("=")
         var type_data,s_data;
         if(output_set[0] == 'new-in-drive-sound'){
@@ -124,8 +137,7 @@
     
         });
 }
-$(document).on('click', '.card', function (e) {
-    console.log("Hello")
+    $(document).on('click', '.card', function (e) {
     var text = $(e.target).text();
     var form ;
     for(var i = 0; i < text.length ; i++){
@@ -194,7 +206,10 @@ $.ajax({
         })
         .then(response => response.json())
         .then(data => SetResult(data));
-        document.location.href = '/Result?'+name+"?"+brand+"?"+solo_musician;
+        let url = window.location.href
+        let data=url.split("/");
+        let url_user=data[3].split("?");
+        document.location.href = '/Result?'+url_user[1]+"?"+url_user[2]+"?"+name+"?"+brand+"?"+solo_musician;
         
 
 
@@ -207,7 +222,8 @@ $.ajax({
 
 </script>
 <body>
-    <%- include('./partial/header'); %>
+    <header class ="header" id = "head">
+            </header>
     <div class="container">
         <div class = head>
             <h2 id ="headline">List of </h2>

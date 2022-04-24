@@ -3,7 +3,7 @@
        
         <head>
             <title>Drive Sound</title>
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <link rel="stylesheet" href="css/styleforhome.css">
 
         </head>
@@ -103,6 +103,7 @@
             searchsong(val);
         }
         function searchsong(x){
+           
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:8888/Search',
@@ -114,10 +115,13 @@
                 },
                 success: function (json) {
                     $.each(json, function( index, value ) {
+                        let url = window.location.href
+                        let data=url.split("/");
+                        let name=data[3].split("?");
                         if(value.song_brand == null){
-                            document.location.href = '/Result?'+value.song_name+"?-?"+value.song_solo_musician;
+                            document.location.href = '/Result?'+name[1]+`?`+name[2]+`?`+value.song_name+"?-?"+value.song_solo_musician;
                         }else{
-                            document.location.href = '/Result?'+value.song_name+"?"+value.song_brand+"?-";
+                            document.location.href = '/Result?'+name[1]+`?`+name[2]+`?`+value.song_name+"?"+value.song_brand+"?-";
                         }
                         
                     })
@@ -129,10 +133,25 @@
         }
         });
         }
+        function sentnew(){
+            let url = window.location.href
+            let data=url.split("/");
+            let name=data[3].split("?");
+            location.href = '/List?'+name[1]+'?'+name[2]+'?new-in-drive-sound';
+        }
+        function sentpop(){
+            let url = window.location.href
+            let data=url.split("/");
+            let name=data[3].split("?");
+            location.href = '/List?'+name[1]+'?'+name[2]+'?popular-in-drive-sound';
+        }
         $(document).on('click', '.search', function () {
             var type = document.getElementById('type').value;
+            let url = window.location.href
+            let data=url.split("/");
+            let name=data[3].split("?");
             console.log(type)
-            location.href = '/List?Type='+type;
+            location.href = '/List?'+name[1]+'?'+name[2]+'?Type='+type;
             
         })
        </script>
@@ -148,7 +167,7 @@
                 <div class ="container">
 
                     
-                    <a href="/List?new-in-drive-sound" style="text-decoration: none" id = "type_list" value = "New in drive sound"><h1> New in drive sound</h1></a>
+                    <a onClick = "sentnew()" style="text-decoration: none; cursor:pointer" id = "type_list" value = "New in drive sound"><h1> New in drive sound</h1></a>
                     <div class="row">
                         <div class="column">
                             <div class="card">
@@ -174,7 +193,7 @@
                     </div>
                 </div>
                     <div class ="container">
-                        <a href="/List?popular-in-drive-sound"><h1>popular in drive sound</h1></a>
+                        <a onClick = "sentpop()" style="cursor:pointer"><h1>popular in drive sound</h1></a>
                         <div class="row">
                             <div class="column">
                                 <div class="card">
